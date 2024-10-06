@@ -53,9 +53,8 @@ rule get_parasha:
 rule make_pdf:
     input:
         table="parashot.csv",
-        hebrew = "parashot/sefira/hebrew_{parasha}.json",
-        english ="parashot/sefira/english_{parasha}.json"
-        
+        hebrew="parashot/sefira/hebrew_{parasha}.json",
+        english="parashot/sefira/english_{parasha}.json"
     output:
         "parashot/{parasha}.pdf"
     run:
@@ -66,14 +65,13 @@ rule make_pdf:
         from reportlab.pdfbase.ttfonts import TTFont
         from reportlab.pdfbase import pdfmetrics
         from reportlab.lib import colors
-
+        from reportlab.lib.enums import TA_LEFT, TA_RIGHT
         import arabic_reshaper
         from bidi.algorithm import get_display
         import json
         from xml.sax.saxutils import escape
         from bs4 import BeautifulSoup
-
-
+        import re
 
         # Load the row for the given parasha
         row = pd.read_csv(input.table, index_col=1).loc[wildcards.parasha]
@@ -114,21 +112,50 @@ rule make_pdf:
             fontSize=16,
             fontName='NotoSansHebrew'
         )
-        from reportlab.lib.enums import TA_LEFT, TA_RIGHT
-        import re
-        def clean_brakets(s):
-                    # Use re.sub() to remove all text between {} including the braces
-            result_string = re.sub(r'\{.*?\}', '', s)
 
+        # Utility functions for cleaning text
+        def clean_brackets(s):
+            # Remove all text between {} including the braces
+            result_string = re.sub(r'\{.*?\}', '', s)
             # Strip any extra spaces left over
             return re.sub(r'\s+', ' ', result_string).strip()
 
+        def remove_footnotes(s):
+            # Parse the string with BeautifulSoup
+            soup = BeautifulSoup(s, "html.parser")
+            # Find and remove all <i> tags with class "footnote"
+            for footnote_tag in soup.find_all("i", class_="footnote"):
+                footnote_tag.decompose()
+            # Get the cleaned up HTML
+            return str(soup)
+        
+        def split_string_without_splitting_words(s, n):
+            words = s.split()  # Split the string into words
+            chunks = []
+            current_chunk = []
+
+            current_length = 0
+            for word in words:
+                # Check if adding the next word exceeds the chunk size
+                if current_length + len(word) + len(current_chunk) > n:
+                    # Append the current chunk to the list and start a new one
+                    chunks.append(' '.join(current_chunk))
+                    current_chunk = [word]
+                    current_length = len(word)
+                else:
+                    current_chunk.append(word)
+                    current_length += len(word)
+
+            # Add the last chunk if it exists
+            if current_chunk:
+                chunks.append(' '.join(current_chunk))
+
+            return chunks
         # Define styles for English and Hebrew cells
         cell_eng = ParagraphStyle(
             'EnglishCellStyle',
             parent=styles['Normal'],
             alignment=TA_LEFT,    # Align the English text to the left
-            valign='TOP',         # Align to the top of the cell
             fontName='NotoSansHebrew'
         )
 
@@ -136,8 +163,9 @@ rule make_pdf:
             'HebrewCellStyle',
             parent=styles['Normal'],
             alignment=TA_RIGHT,   # Align the Hebrew text to the right
-            valign='TOP',         # Align to the top of the cell
-            fontName='NotoSansHebrew'
+            fontName='NotoSansHebrew',
+            spaceAfter=0,
+            leading=14  # Increase leading to improve readability of Hebrew text
         )
 
         # Prepare PDF content
@@ -151,51 +179,57 @@ rule make_pdf:
         # Add a page break
         elements.append(PageBreak())
 
-        hebrew  = json.load(open(input.hebrew))['versions'][0]['text']
+        # Load Hebrew and English texts
+        hebrew = json.load(open(input.hebrew))['versions'][0]['text']
         english = json.load(open(input.english))['versions'][0]['text']
-        verse,line = (row.ref.split()[-1].split("-")[0].split(":"))
-        verse,line = int(verse),int(line)
-        if type(hebrew[0])==str:
-            hebrew=[hebrew]
-            english=[english]
-        for v_hebew,v_english in zip(hebrew,english):
-            table = []
+
+        # Ensure texts are lists of lists
+        if isinstance(hebrew[0], str):
+            hebrew = [hebrew]
+            english = [english]
+
+        # Iterate through verses and add them to the table
+        verse, line = map(int, row.ref.split()[-1].split("-")[0].split(":"))
+        for v_hebrew, v_english in zip(hebrew, english):
+            table_data = []
+
             elements.append(Paragraph(f"{verse}", title_style))
 
-            for l_hebrew,l_english in zip(v_hebew,v_english):
-                verse
-                line
-                l_english = Paragraph(BeautifulSoup(l_english, "lxml").text,cell_eng)
-                l_hebrew  = Paragraph(BeautifulSoup(clean_brakets(l_hebrew),  "lxml").text[::-1],cell_heb)
-                table.append((
-                    l_hebrew,
-                    line,
-                    l_english))
-                line+=1
-            W=letter[0]
-            wings = .4
-            mid   = .025
-            table = Table(table,colWidths=[W*wings,W*mid,W*wings])
+            for l_hebrew, l_english in zip(v_hebrew, v_english):
+                # Clean and prepare Hebrew and English texts
+                p_english = [Paragraph(i, cell_eng) for i in split_string_without_splitting_words(BeautifulSoup(remove_footnotes(l_english), "lxml").text,50)]
+                p_hebrew  = [Paragraph(i[::-1], cell_heb) for i in split_string_without_splitting_words(clean_brackets(BeautifulSoup(remove_footnotes(l_hebrew),  "lxml").text),100)]
+                # Append Hebrew, line number, and English to the table
+                table_data.append((p_hebrew, line, p_english))
+                line += 1
+
+            # Set up table layout
+            W = letter[0]
+            wings = 100
+            mid = 0.025
+            table = Table(table_data, colWidths=[W * wings, W * mid, W * wings])
 
             # Apply styles to the table
             table.setStyle(TableStyle([
-                ('FONTNAME', (0, 0), (-1, -1), 'NotoSansHebrew'),     # Set Hebrew font for all cells
-                ('BACKGROUND', (0, 1), (-1, -1), colors.white),       # Background color for data rows
-                ('GRID', (0, 0), (-1, -1), 1, colors.white),          # Add a grid to the table
-                ('HALIGN', (0, 0), (-1, -1), 'MIDDLE'),                # Vertically align to middle
-                ('ALIGN', (0, 0), (0, -1), 'RIGHT'),                  # Align the Hebrew column (first column) to the right
-                ('ALIGN', (2, 0), (2, -1), 'LEFT'),                   # Align the English column (third column) to the left
-                ('ALIGN', (1, 0), (1, -1), 'CENTER'),                 # Center-align the middle column
-                ('WORDWRAP', (0, 0), (-1, -1), 'CJK'),                # Enable word wrapping for all cells
-                ('VALIGN', (0, 0), (-1, -1), 'TOP'),                  # Vertically align all cells to the top
+                ('FONTNAME', (0, 0), (-1, -1), 'NotoSansHebrew'),  # Set Hebrew font for all cells
+                ('BACKGROUND', (0, 0), (-1, -1), colors.white),    # Background color for all cells
+                ('GRID', (0, 0), (-1, -1), 1, colors.white),        # Add a grid to the table
+                ('VALIGN', (0, 0), (-1, -1), 'TOP'),               # Vertically align all cells to the top
+                ('ALIGN', (0, 0), (0, -1), 'RIGHT'),               # Align the Hebrew column (first column) to the right
+                ('ALIGN', (2, 0), (2, -1), 'LEFT'),                # Align the English column (third column) to the left
+                ('ALIGN', (1, 0), (1, -1), 'CENTER'),              # Center-align the middle column
             ]))
             elements.append(table)
-            line=1
-            verse+=1       
-        # Build the PDF
+            line = 1
+            verse += 1
+
+        # Add a blank page at the end
         elements.append(PageBreak())
 
+        # Build the PDF
         pdf.build(elements)
+
+
 rule make_book:
     input:
         pdf="parashot/{parasha}.pdf"

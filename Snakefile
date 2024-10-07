@@ -73,13 +73,17 @@ def trim_to_max_tokens(text, max_tokens=10000, model="gpt-3.5-turbo"):
     trimmed_text = encoding.decode(tokens)
     return trimmed_text
 @norerun
-def summarize_text(text):
+def summarize_text(text,refereces=False):
     # Get the API key from the environment variable
     client = OpenAI(
         # This is the default and can be omitted
         api_key=os.environ.get("OPENAI_API_KEY"),
     )
-    text = trim_to_max_tokens( f"Please summarize the following text in no more than one paragraph, keep references in brackets if needed, Do it succintly:\n\n{text}")
+    if refereces:
+        text = trim_to_max_tokens( f"Please summarize the following text in no more than one paragraph, keep references in brackets indicating from which commentary it came (is at the beginning of each paragraph), Do it succintly:\n\n{text}")
+    else:
+        text = trim_to_max_tokens( f"Please summarize the following text in no more than one paragraph, Do it succintly:\n\n{text}")
+
     chat_completion = client.chat.completions.create(
             messages=[
                 {
@@ -348,17 +352,20 @@ rule make_pdf_with_commentary:
         english="sefaria/english_{parasha}.json",
         commentary="sefaria/commentary_{parasha}.csv",
     output:
-        "parashot_commentary/{parasha}.pdf"
+        book="parashot_commentary/{parasha}.pdf",
+        expanded="parashot_commentary/{parasha}_expanded.pdf"
     run:
         import pandas as pd
         from tqdm import tqdm
+        import qrcode
         from reportlab.lib.pagesizes import letter
-        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle
+        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle, Image
         from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
         from reportlab.pdfbase.ttfonts import TTFont
         from reportlab.pdfbase import pdfmetrics
         from reportlab.lib import colors
         from reportlab.lib.enums import TA_LEFT, TA_RIGHT
+        from reportlab.lib.units import inch
         import arabic_reshaper
         from bidi.algorithm import get_display
         import json
@@ -366,7 +373,25 @@ rule make_pdf_with_commentary:
         from bs4 import BeautifulSoup
         import re
         import os
+        from io import BytesIO
 
+        #QR code bit:
+        qr_url = f"https://github.com/DrAnomalocaris/SefriaToBooklets/blob/main/parashot_commentary/{wildcards.parasha}_expanded.pdf"
+        # Generate the QR code
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_H,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(qr_url)
+        qr.make(fit=True)
+
+        # Save QR code to a BytesIO buffer
+        qr_image = BytesIO()
+        qr_img = qr.make_image(fill_color="black", back_color="white")
+        qr_img.save(qr_image)
+        qr_image.seek(0)
         comments = pd.read_csv(input.commentary)
         # Load the row for the given parasha
         row = pd.read_csv(input.table, index_col=1).loc[wildcards.parasha]
@@ -379,7 +404,8 @@ rule make_pdf_with_commentary:
         bidi_hebrew = get_display(reshaped_hebrew)
 
         # Create a PDF document
-        pdf = SimpleDocTemplate(output[0], pagesize=letter)
+        pdf    = SimpleDocTemplate(output.book,     pagesize=letter)
+        pdfexp = SimpleDocTemplate(output.expanded, pagesize=letter)
 
         # Define styles for text using the registered Hebrew font
         styles = getSampleStyleSheet()
@@ -474,14 +500,23 @@ rule make_pdf_with_commentary:
 
         # Prepare PDF content
         elements = []
+        elements_expanded = []
 
         # Add title page
         elements.append(Paragraph(f"{row.n + 1}", title_style))
         elements.append(Paragraph(f"{bidi_hebrew} {wildcards.parasha}", subtitle_style))
         elements.append(Paragraph(f"{row.ref}", reference_style))
-
+        
+        elements_expanded.append(Paragraph(f"{row.n + 1}", title_style))
+        elements_expanded.append(Paragraph(f"{bidi_hebrew} {wildcards.parasha}", subtitle_style))
+        elements_expanded.append(Paragraph(f"Expanded Commentary", subtitle_style))
+        elements_expanded.append(Paragraph(f"{row.ref}", reference_style))
+        BOOK = row.ref.split()[0]
         # Add a page break
         elements.append(PageBreak())
+        elements_expanded.append(PageBreak())
+        elements.append(PageBreak())
+        elements_expanded.append(PageBreak())
 
         # Load Hebrew and English texts
         hebrew = json.load(open(input.hebrew))['versions'][0]['text']
@@ -525,25 +560,34 @@ rule make_pdf_with_commentary:
                 #add commentary style = commentary_style
                 localComments = comments[(comments.verse == verse) & (comments.line == line)].sort_values('source')
                 commentaries_summaries= ""
+                elements_expanded.append(Paragraph(f"{BOOK} {verse}:{line}", title_style))
+
                 for category in localComments.category.unique():
+                    elements_expanded.append(Paragraph(f"{category}", subtitle_style))
 
                     commentary_text=""
                     for index, row in localComments[localComments.category == category].iterrows():
-                        commentary_text+=f"{row.category}|{row.source}\n{row.text}\n\n"
-                        #elements.append(Paragraph(, commentary_style))
-                    commentaries_summaries+=f"{category}\n{summarize_text(commentary_text)}\n\n"
+                        subCommentary=f"{row.category}|{row.source}\n{row.text}\n\n"
+                        commentary_text+=subCommentary
+                    summary_comment= summarize_text(commentary_text,refereces=True)
+                    commentaries_summaries+=f"{category}\n{summary_comment}\n\n"
+                    elements_expanded.append(Paragraph(summary_comment, commentary_style))
 
-                elements.append(Paragraph(summarize_text(commentaries_summaries), commentary_style))
+                elements.append(Paragraph(summarize_text(commentaries_summaries,refereces=False), commentary_style))
+                elements_expanded.append(PageBreak())
 
                 line += 1
-
             line = 1
             verse += 1
         # Add a blank page at the end
         elements.append(PageBreak())
+        qr_image_element = Image(qr_image, width=2*inch, height=2*inch)
+        elements.append(qr_image_element)
+        elements.append(PageBreak())
 
         # Build the PDF
         pdf.build(elements)
+        pdfexp.build(elements_expanded)
 
 rule make_book:
     input:

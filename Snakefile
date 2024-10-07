@@ -19,6 +19,7 @@ checkpoint get_parashot_csv:
         # Save the DataFrame to CSV
         parashot.to_csv(output[0], index=True)
 
+
 def parashot_list(wildcards):
     import pandas as pd
     parashotFile = checkpoints.get_parashot_csv.get().output[0] 
@@ -182,7 +183,7 @@ rule make_pdf:
     run:
         import pandas as pd
         from reportlab.lib.pagesizes import letter
-        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle
+        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle, Frame
         from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
         from reportlab.pdfbase.ttfonts import TTFont
         from reportlab.pdfbase import pdfmetrics
@@ -359,7 +360,7 @@ rule make_pdf_with_commentary:
         from tqdm import tqdm
         import qrcode
         from reportlab.lib.pagesizes import letter
-        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle, Image
+        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle, Image, Frame, PageTemplate
         from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
         from reportlab.pdfbase.ttfonts import TTFont
         from reportlab.pdfbase import pdfmetrics
@@ -374,7 +375,17 @@ rule make_pdf_with_commentary:
         import re
         import os
         from io import BytesIO
-
+        def add_page_number(canvas, doc):
+            # Save the canvas state
+            canvas.saveState()
+            # Set font for page number
+            canvas.setFont('Helvetica', 10)
+            # Get the current page number from the document object
+            page_num = doc.page
+            # Draw the page number at the bottom of the page
+            canvas.drawString(4.25 * inch, 0.5 * inch, f"Page {page_num}")
+            # Restore the canvas state
+            canvas.restoreState()
         #QR code bit:
         qr_url = f"https://github.com/DrAnomalocaris/SefriaToBooklets/blob/main/parashot_commentary/{wildcards.parasha}_expanded.pdf"
         # Generate the QR code
@@ -406,7 +417,11 @@ rule make_pdf_with_commentary:
         # Create a PDF document
         pdf    = SimpleDocTemplate(output.book,     pagesize=letter)
         pdfexp = SimpleDocTemplate(output.expanded, pagesize=letter)
-
+        frame = Frame(0.5 * inch, 0.75 * inch, 7.5 * inch, 10 * inch, id='normal')
+        template = PageTemplate(id='with_page_numbers', frames=frame, onPage=add_page_number)
+        pdf.addPageTemplates([template])
+        pdfexp.addPageTemplates([template])
+        
         # Define styles for text using the registered Hebrew font
         styles = getSampleStyleSheet()
         title_style = ParagraphStyle(
@@ -454,10 +469,13 @@ rule make_pdf_with_commentary:
         def clean_brackets(s):
             # Remove all text between {} including the braces
             result_string = re.sub(r'\{.*?\}', '', s)
+            result_string = re.sub(r'\[.*?\]', '', s)
             # Strip any extra spaces left over
             return re.sub(r'\s+', ' ', result_string).strip()
 
-        
+        def invert_brackets(s):
+            return ''.join([")" if i == "(" else "(" if i == ")" else i for i in s])
+
         
         def split_string_without_splitting_words(s, n):
             words = s.split()  # Split the string into words
@@ -537,7 +555,7 @@ rule make_pdf_with_commentary:
             for l_hebrew, l_english in tqdm(list(zip(v_hebrew, v_english))):
                 # Clean and prepare Hebrew and English texts
                 p_english = [Paragraph(i, cell_eng) for i in split_string_without_splitting_words(BeautifulSoup(remove_footnotes_en(l_english), "lxml").text,50)]
-                p_hebrew  = [Paragraph(i[::-1], cell_heb) for i in split_string_without_splitting_words(clean_brackets(BeautifulSoup(remove_footnotes_heb(l_hebrew),  "lxml").text),100)]
+                p_hebrew  = [Paragraph(invert_brackets(i[::-1]), cell_heb) for i in split_string_without_splitting_words(clean_brackets(BeautifulSoup(remove_footnotes_heb(l_hebrew),  "lxml").text),100)]
                 # Append Hebrew, line number, and English to the table
                 table_data = [[p_hebrew, line, p_english]]
                 # Set up table layout
@@ -560,10 +578,33 @@ rule make_pdf_with_commentary:
                 #add commentary style = commentary_style
                 localComments = comments[(comments.verse == verse) & (comments.line == line)].sort_values('source')
                 commentaries_summaries= ""
-                elements_expanded.append(Paragraph(f"{BOOK} {verse}:{line}", title_style))
+                elements_expanded.append(
+                    Paragraph(f"{BOOK} {verse}:{line}",
+                    ParagraphStyle(
+                        'TitleStyle',
+                        parent=styles['Title'],
+                        alignment=1,  # Center the text
+                        spaceAfter=20,
+                        fontSize=24,
+                        fontName='NotoSansHebrew'
+                     ) 
+                
+                    ))
+                elements_expanded.append(table)
 
                 for category in localComments.category.unique():
-                    elements_expanded.append(Paragraph(f"{category}", subtitle_style))
+                    elements_expanded.append(
+                        Paragraph(
+                            f"{category}", 
+                            ParagraphStyle(
+                                'SubtitleStyle',
+                                parent=styles['Title'],
+                                alignment=TA_LEFT,  # Center the text
+                                spaceAfter=20,
+                                fontSize=18,
+                                fontName='NotoSansHebrew'
+                            )
+                            ))
 
                     commentary_text=""
                     for index, row in localComments[localComments.category == category].iterrows():
@@ -571,7 +612,17 @@ rule make_pdf_with_commentary:
                         commentary_text+=subCommentary
                     summary_comment= summarize_text(commentary_text,refereces=True)
                     commentaries_summaries+=f"{category}\n{summary_comment}\n\n"
-                    elements_expanded.append(Paragraph(summary_comment, commentary_style))
+                    elements_expanded.append(
+                        Paragraph(
+                            summary_comment, 
+                            ParagraphStyle(
+                                'ReferenceStyle',
+                                parent=styles['Normal'],
+                                alignment=TA_LEFT,  # Center the text
+                                spaceAfter=2,
+                                fontSize=8,
+                                fontName='NotoSansHebrew'
+                            )))
 
                 elements.append(Paragraph(summarize_text(commentaries_summaries,refereces=False), commentary_style))
                 elements_expanded.append(PageBreak())
@@ -583,6 +634,25 @@ rule make_pdf_with_commentary:
         elements.append(PageBreak())
         qr_image_element = Image(qr_image, width=2*inch, height=2*inch)
         elements.append(qr_image_element)
+        elements.append(Paragraph("Expanded commentary and sources",subtitle_style))
+        qr2 = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_H,
+            box_size=10,
+            border=4,
+        )
+        qr2.add_data("https://github.com/DrAnomalocaris/SefriaToBooklets")
+        qr2.make(fit=True)
+
+        # Save QR code to a BytesIO buffer
+        qr2_image = BytesIO()
+        qr2_img = qr2.make_image(fill_color="black", back_color="white")
+        qr2_img.save(qr2_image)
+        qr2_image.seek(0)
+        qr2_image_element = Image(qr2_image, width=2*inch, height=2*inch)
+
+        elements.append(qr2_image_element)
+        elements.append(Paragraph("GitHub",subtitle_style))
         elements.append(PageBreak())
 
         # Build the PDF
@@ -591,11 +661,11 @@ rule make_pdf_with_commentary:
 
 rule make_book:
     input:
-        pdf="parashot/{parasha}.pdf"
+        pdf="parashot{comments}/{parasha}.pdf"
     output:
-        "booklets/{parasha}.pdf"
+        "booklets{comments}/{parasha}.pdf"
     shell:
-        'pdfbook2 "{input.pdf}" --paper=letter --no-crop && mv "parashot/{wildcards.parasha}-book.pdf" "{output}"'
+        'pdfbook2 "{input.pdf}" --paper=letter --no-crop && mv "parashot{wildcards.comments}/{wildcards.parasha}-book.pdf" "{output}"'
 
 rule all:
     input:

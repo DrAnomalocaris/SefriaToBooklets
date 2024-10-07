@@ -81,9 +81,9 @@ def summarize_text(text,refereces=False):
         api_key=os.environ.get("OPENAI_API_KEY"),
     )
     if refereces:
-        text = trim_to_max_tokens( f"Please summarize the following text in no more than one paragraph, keep references in brackets indicating from which commentary it came (is at the beginning of each paragraph), Do it succintly:\n\n{text}")
+        text = trim_to_max_tokens( f"Please summarize the following text in no more than one paragraph, keep references in brackets indicating from which commentary it came (is at the beginning of each paragraph), Do it succintly, do not include introductions, just bulletpoint statements of specifics:\n\n{text}")
     else:
-        text = trim_to_max_tokens( f"Please summarize the following text in no more than one paragraph, Do it succintly:\n\n{text}")
+        text = trim_to_max_tokens( f"Please summarize the following text in no more than one paragraph, Do it succintly, do not include introductions, just bulletpoint statements of specifics, not as a debate between sources, but mention specifically what they say:\n\n{text}")
 
     chat_completion = client.chat.completions.create(
             messages=[
@@ -359,8 +359,9 @@ rule make_pdf_with_commentary:
         import pandas as pd
         from tqdm import tqdm
         import qrcode
+        import urllib.parse
         from reportlab.lib.pagesizes import letter
-        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle, Image, Frame, PageTemplate
+        from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle, Image
         from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
         from reportlab.pdfbase.ttfonts import TTFont
         from reportlab.pdfbase import pdfmetrics
@@ -375,34 +376,6 @@ rule make_pdf_with_commentary:
         import re
         import os
         from io import BytesIO
-        def add_page_number(canvas, doc):
-            # Save the canvas state
-            canvas.saveState()
-            # Set font for page number
-            canvas.setFont('Helvetica', 10)
-            # Get the current page number from the document object
-            page_num = doc.page
-            # Draw the page number at the bottom of the page
-            canvas.drawString(4.25 * inch, 0.5 * inch, f"Page {page_num}")
-            # Restore the canvas state
-            canvas.restoreState()
-        #QR code bit:
-        qr_url = f"https://github.com/DrAnomalocaris/SefriaToBooklets/blob/main/parashot_commentary/{wildcards.parasha}_expanded.pdf"
-        # Generate the QR code
-        qr = qrcode.QRCode(
-            version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_H,
-            box_size=10,
-            border=4,
-        )
-        qr.add_data(qr_url)
-        qr.make(fit=True)
-
-        # Save QR code to a BytesIO buffer
-        qr_image = BytesIO()
-        qr_img = qr.make_image(fill_color="black", back_color="white")
-        qr_img.save(qr_image)
-        qr_image.seek(0)
         comments = pd.read_csv(input.commentary)
         # Load the row for the given parasha
         row = pd.read_csv(input.table, index_col=1).loc[wildcards.parasha]
@@ -417,10 +390,7 @@ rule make_pdf_with_commentary:
         # Create a PDF document
         pdf    = SimpleDocTemplate(output.book,     pagesize=letter)
         pdfexp = SimpleDocTemplate(output.expanded, pagesize=letter)
-        frame = Frame(0.5 * inch, 0.75 * inch, 7.5 * inch, 10 * inch, id='normal')
-        template = PageTemplate(id='with_page_numbers', frames=frame, onPage=add_page_number)
-        pdf.addPageTemplates([template])
-        pdfexp.addPageTemplates([template])
+
         
         # Define styles for text using the registered Hebrew font
         styles = getSampleStyleSheet()
@@ -451,7 +421,7 @@ rule make_pdf_with_commentary:
         commentary_style = ParagraphStyle(
             'ReferenceStyle',
             parent=styles['Normal'],
-            alignment=1,  # Center the text
+            alignment=TA_LEFT,  # Center the text
             spaceAfter=2,
             fontSize=8,
             fontName='NotoSansHebrew'
@@ -464,6 +434,71 @@ rule make_pdf_with_commentary:
             fontSize=12,
             fontName='NotoSansHebrew'
         )
+
+        # Prepare PDF content
+        elements = []
+        elements_expanded = []
+
+        # Add title page
+        elements.append(Paragraph(f"{row.n + 1}", title_style))
+        elements.append(Paragraph(f"{bidi_hebrew} {wildcards.parasha}", subtitle_style))
+        elements.append(Paragraph(f"{row.ref}", reference_style))
+        
+        elements_expanded.append(Paragraph(f"{row.n + 1}", title_style))
+        elements_expanded.append(Paragraph(f"{bidi_hebrew} {wildcards.parasha}", subtitle_style))
+        elements_expanded.append(Paragraph(f"Expanded Commentary", subtitle_style))
+        elements_expanded.append(Paragraph(f"{row.ref}", reference_style))
+        BOOK = row.ref.split()[0]
+        # Add a page break
+        elements.append(PageBreak())
+        elements_expanded.append(PageBreak())
+        elements.append(PageBreak())
+        elements_expanded.append(PageBreak())
+
+
+        #QR code bit:
+        qr_url = f"https://github.com/DrAnomalocaris/SefriaToBooklets/blob/main/{urllib.parse.quote(output.expanded)}"
+        # Generate the QR code
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_H,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(qr_url)
+        qr.make(fit=True)
+
+        # Save QR code to a BytesIO buffer
+        qr_image = BytesIO()
+        qr_img = qr.make_image(fill_color="black", back_color="white")
+        qr_img.save(qr_image)
+        qr_image.seek(0)
+
+        qr_image_element = Image(qr_image, width=2*inch, height=2*inch)
+        elements.append(qr_image_element)
+        elements.append(Paragraph("Expanded commentary and sources",subtitle_style))
+        qr2 = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_H,
+            box_size=10,
+            border=4,
+        )
+        qr2.add_data("https://github.com/DrAnomalocaris/SefriaToBooklets")
+        qr2.make(fit=True)
+
+        # Save QR code to a BytesIO buffer
+        qr2_image = BytesIO()
+        qr2_img = qr2.make_image(fill_color="black", back_color="white")
+        qr2_img.save(qr2_image)
+        qr2_image.seek(0)
+        qr2_image_element = Image(qr2_image, width=2*inch, height=2*inch)
+
+        elements.append(qr2_image_element)
+        elements.append(Paragraph("GitHub",subtitle_style))
+        elements.append(PageBreak())
+
+
+        
 
         # Utility functions for cleaning text
         def clean_brackets(s):
@@ -516,25 +551,8 @@ rule make_pdf_with_commentary:
             leading=14  # Increase leading to improve readability of Hebrew text
         )
 
-        # Prepare PDF content
-        elements = []
-        elements_expanded = []
+ 
 
-        # Add title page
-        elements.append(Paragraph(f"{row.n + 1}", title_style))
-        elements.append(Paragraph(f"{bidi_hebrew} {wildcards.parasha}", subtitle_style))
-        elements.append(Paragraph(f"{row.ref}", reference_style))
-        
-        elements_expanded.append(Paragraph(f"{row.n + 1}", title_style))
-        elements_expanded.append(Paragraph(f"{bidi_hebrew} {wildcards.parasha}", subtitle_style))
-        elements_expanded.append(Paragraph(f"Expanded Commentary", subtitle_style))
-        elements_expanded.append(Paragraph(f"{row.ref}", reference_style))
-        BOOK = row.ref.split()[0]
-        # Add a page break
-        elements.append(PageBreak())
-        elements_expanded.append(PageBreak())
-        elements.append(PageBreak())
-        elements_expanded.append(PageBreak())
 
         # Load Hebrew and English texts
         hebrew = json.load(open(input.hebrew))['versions'][0]['text']
@@ -550,7 +568,7 @@ rule make_pdf_with_commentary:
 
         for v_hebrew, v_english in zip(hebrew, english):
 
-            elements.append(Paragraph(f"{verse}", title_style))
+            elements.append(Paragraph(f"{BOOK} {verse}", title_style))
 
             for l_hebrew, l_english in tqdm(list(zip(v_hebrew, v_english))):
                 # Clean and prepare Hebrew and English texts
@@ -626,34 +644,12 @@ rule make_pdf_with_commentary:
 
                 elements.append(Paragraph(summarize_text(commentaries_summaries,refereces=False), commentary_style))
                 elements_expanded.append(PageBreak())
-
                 line += 1
             line = 1
             verse += 1
         # Add a blank page at the end
         elements.append(PageBreak())
-        qr_image_element = Image(qr_image, width=2*inch, height=2*inch)
-        elements.append(qr_image_element)
-        elements.append(Paragraph("Expanded commentary and sources",subtitle_style))
-        qr2 = qrcode.QRCode(
-            version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_H,
-            box_size=10,
-            border=4,
-        )
-        qr2.add_data("https://github.com/DrAnomalocaris/SefriaToBooklets")
-        qr2.make(fit=True)
-
-        # Save QR code to a BytesIO buffer
-        qr2_image = BytesIO()
-        qr2_img = qr2.make_image(fill_color="black", back_color="white")
-        qr2_img.save(qr2_image)
-        qr2_image.seek(0)
-        qr2_image_element = Image(qr2_image, width=2*inch, height=2*inch)
-
-        elements.append(qr2_image_element)
-        elements.append(Paragraph("GitHub",subtitle_style))
-        elements.append(PageBreak())
+        
 
         # Build the PDF
         pdf.build(elements)

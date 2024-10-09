@@ -37,6 +37,7 @@ def parasha_verse(wildcards):
 def remove_footnotes_en(s):
     # Parse the string with BeautifulSoup
     if s==[]:s=""
+    s = s.replace("<br>", " ")
     if type(s) == list: s = " ".join(s)
     soup = BeautifulSoup(s, "html.parser")
     
@@ -46,17 +47,23 @@ def remove_footnotes_en(s):
         footnote_text = footnote_tag.get_text(strip=False)
         
         # Replace the footnote tag with its text wrapped in brackets
-        footnote_tag.replace_with(f" ({footnote_text})")
+        footnote_tag.replace_with(f" ({footnote_text}) ")
     for footnote_marker in soup.find_all("sup",class_="footnote-marker"):
         footnote_marker.decompose()
+
     # Get the cleaned-up text without any HTML tags
     return soup.get_text()
 def remove_footnotes_heb(s):
+    s = s.replace("<br>", " ")
+
     # Parse the string with BeautifulSoup
     soup = BeautifulSoup(s, "html.parser")
     # Find and remove all <i> tags with class "footnote"
     for footnote_tag in soup.find_all("i", class_="footnote"):
-        footnote_tag.decompose()
+        footnote_tag.replace_with(" ")
+    for footnote_marker in soup.find_all("sup",class_="footnote-marker"):
+        footnote_marker.decompose()
+
     # Get the cleaned up HTML
     return str(soup)
 def trim_to_max_tokens(text, max_tokens=10000, model="gpt-3.5-turbo"):
@@ -654,6 +661,158 @@ rule make_pdf_with_commentary:
         # Build the PDF
         pdf.build(elements)
         pdfexp.build(elements_expanded)
+
+rule make_doc_with_commentary:
+    input:
+        table="parashot.csv",
+        hebrew="sefaria/hebrew_{parasha}.json",
+        english="sefaria/english_{parasha}.json",
+        commentary="sefaria/commentary_{parasha}.csv",
+    output:
+        book="parashot_commentary/{parasha}.docx",
+        expanded="parashot_commentary/{parasha}_expanded.docx"
+    run:
+        import pandas as pd
+        from tqdm import tqdm
+        import json
+        import re
+        from docx import Document
+        from docx.shared import Pt, Inches
+        from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+        import arabic_reshaper
+        from bidi.algorithm import get_display
+        from docx.oxml.ns import qn
+        from docx.oxml import OxmlElement
+
+        # Function to create a table with Hebrew, Line, and English text
+        def add_table_with_text(document, hebrew_text, line_number, english_text):
+            # Add a table with 1 row and 3 columns
+            table = document.add_table(rows=1, cols=3)
+            table.autofit = True
+
+            tbl = table._tbl  # Get the table element from the table object
+            tbl_pr = tbl.tblPr  # Get table properties
+            
+            # Create or find the table alignment element (<w:jc w:val="center"/>)
+            jc = tbl_pr.xpath('w:jc')
+            if not jc:
+                jc = OxmlElement('w:jc')
+                tbl_pr.append(jc)
+            jc.set(qn('w:val'), 'left')
+            # Set the width of each column 
+            # Get the first row
+            row = table.rows[0]
+            
+            # Hebrew text (Right aligned)
+            cell_hebrew = row.cells[0]
+            cell_hebrew.text = hebrew_text
+            paragraph_hebrew = cell_hebrew.paragraphs[0]
+            paragraph_hebrew.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
+            
+            # Line number (Center aligned)
+            cell_line = row.cells[1]
+            cell_line.text = str(line_number)
+            paragraph_line = cell_line.paragraphs[0]
+            paragraph_line.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+            
+            # English text (Left aligned)
+            cell_english = row.cells[2]
+            cell_english.text = english_text
+            paragraph_english = cell_english.paragraphs[0]
+            paragraph_english.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+            
+            #set size of columns
+            table.columns[0].width = Inches(40)  # Hebrew column
+            table.columns[1].width = Inches(0.025)  # Line number column
+            table.columns[2].width = Inches(40)  # English column
+
+
+
+        # Load data
+        comments = pd.read_csv(input.commentary)
+        row = pd.read_csv(input.table, index_col=1).loc[wildcards.parasha]
+        
+        # Reshape Hebrew text and get bidi format
+        reshaped_hebrew = arabic_reshaper.reshape(row.he)
+        bidi_hebrew = get_display(reshaped_hebrew)
+        
+        # Create a DOCX document
+        doc = Document()
+        docexp = Document()
+        
+        # Function to add paragraph with specific style
+        def add_paragraph_with_style(document, text, font_size=24, alignment=WD_PARAGRAPH_ALIGNMENT.CENTER):
+            paragraph = document.add_paragraph(text)
+            run = paragraph.runs[0]
+            run.font.size = Pt(font_size)
+            paragraph.alignment = alignment
+        
+        # Add title page
+        add_paragraph_with_style(doc, f"{row.n + 1}", font_size=24)
+        add_paragraph_with_style(doc, f"{bidi_hebrew} {wildcards.parasha}", font_size=18)
+        add_paragraph_with_style(doc, f"{row.ref}", font_size=16)
+        doc.add_page_break()
+        add_paragraph_with_style(docexp, f"{row.n + 1}", font_size=24)
+        add_paragraph_with_style(docexp, f"{bidi_hebrew} {wildcards.parasha}", font_size=18)
+        add_paragraph_with_style(docexp, f"Expanded Commentary", font_size=18)
+        add_paragraph_with_style(docexp, f"{row.ref}", font_size=16)
+        docexp.add_page_break()
+        BOOK = row.ref.split()[0]
+        
+        # Utility functions for text cleaning
+        def clean_brackets(s):
+            result_string = re.sub(r'\{.*?\}', '', s)
+            result_string = re.sub(r'\[.*?\]', '', s)
+            return re.sub(r'\s+', ' ', result_string).strip()
+        
+        def invert_brackets(s):
+            return ''.join([")" if i == "(" else "(" if i == ")" else i for i in s])
+        
+        # Load Hebrew and English texts
+        hebrew = json.load(open(input.hebrew))['versions'][0]['text']
+        english = json.load(open(input.english))['versions'][0]['text']
+        
+        if isinstance(hebrew[0], str):
+            hebrew = [hebrew]
+            english = [english]
+        
+        verse, line = map(int, row.ref.split()[-1].split("-")[0].split(":"))
+        
+        for v_hebrew, v_english in zip(hebrew, english):
+            add_paragraph_with_style(doc, f"{BOOK} {verse}", font_size=24)
+            
+            for l_hebrew, l_english in tqdm(list(zip(v_hebrew, v_english))):
+                cleaned_hebrew  = clean_brackets(BeautifulSoup(remove_footnotes_heb(l_hebrew),  "lxml").text)
+                cleaned_english = BeautifulSoup(remove_footnotes_heb(l_english), "lxml").text
+                add_table_with_text(doc, cleaned_hebrew, line, cleaned_english)
+
+                #add_paragraph_with_style(doc, cleaned_hebrew, font_size=14, alignment=WD_PARAGRAPH_ALIGNMENT.RIGHT)
+                #add_paragraph_with_style(doc, cleaned_english, font_size=14, alignment=WD_PARAGRAPH_ALIGNMENT.LEFT)
+                
+                local_comments = comments[(comments.verse == verse) & (comments.line == line)].sort_values('source')
+                add_paragraph_with_style(docexp, f"{BOOK} {verse}:{line}", font_size=24)
+                commentaries_summaries=""
+                for category in local_comments.category.unique():
+                    add_paragraph_with_style(docexp, f"{category}", font_size=18, alignment=WD_PARAGRAPH_ALIGNMENT.LEFT)
+                    commentary_text=""
+                    for _, row in local_comments[local_comments.category == category].iterrows():
+                        subCommentary=f"{row.category}|{row.source}\n{row.text}\n\n"
+                        commentary_text+=subCommentary
+                    summary_comment= summarize_text(commentary_text,refereces=True)
+                    commentaries_summaries+=f"{category}\n{summary_comment}\n\n"
+                    add_paragraph_with_style(docexp, summary_comment, font_size=12, alignment=WD_PARAGRAPH_ALIGNMENT.LEFT)
+                add_paragraph_with_style(doc, summarize_text(commentaries_summaries,refereces=False), font_size=10, alignment=WD_PARAGRAPH_ALIGNMENT.CENTER)
+                docexp.add_page_break()
+
+                line += 1
+            line = 1
+            verse += 1
+        
+        # Save DOCX files
+        doc.save(output.book)
+        docexp.save(output.expanded)
+
+
 
 rule make_book:
     input:

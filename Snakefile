@@ -802,7 +802,7 @@ rule make_pdf_with_commentary:
         pdf.build(elements)
         pdfexp.build(elements_expanded)
 
-rule make_doc_with_commentary:
+""" rule make_doc_with_commentary:
     input:
         table="parashot.csv",
         hebrew="sefaria/hebrew_{parasha}.json",
@@ -945,8 +945,8 @@ rule make_doc_with_commentary:
 
         
         # Save DOCX files
-        doc.save(output.book)
-
+        doc.save(output.book) """
+""" 
 rule make_the_BOOK:
     input:
         lambda wildcards: expand("parashot_commentary/{parasha}.docx", parasha=["Balak","V'Zot HaBerachah"]), #parashot_list(wildcards)
@@ -991,8 +991,89 @@ rule make_the_BOOK:
 
         # Example usage
         merge_documents(input)
+ """
 
 
+rule make_MD_with_commentary:
+    input:
+        table="parashot.csv",
+        hebrew="sefaria/hebrew_{parasha}.json",
+        english="sefaria/english_{parasha}.json",
+        commentary="sefaria/summaries/{parasha}/meta_summary.pkl",
+
+    output:
+        book="parashot_commentary/{parasha}.MD",
+        #expanded="parashot_commentary/{parasha}_expanded.docx"
+    run:
+        import pandas as pd
+        from tqdm import tqdm
+        import json
+        import re
+        import arabic_reshaper
+        from bidi.algorithm import get_display
+
+        # Load data
+        comments = pd.read_pickle(input.commentary)
+ 
+        row = pd.read_csv(input.table, index_col=1).loc[wildcards.parasha]
+        BOOK = row.ref.split()[0]
+
+        # Reshape Hebrew text and get bidi format
+        reshaped_hebrew = arabic_reshaper.reshape(row.he)
+        bidi_hebrew = get_display(reshaped_hebrew)
+        
+        # Create a DOCX document
+        doc = ""
+        
+
+        
+        # Add title page
+
+        doc += f"\n# **{row.n + 1}**: {bidi_hebrew[::-1]}|{wildcards.parasha}\n \n"
+        doc += f"\n  {row.ref} \n"
+        doc += '<div style="page-break-after: always;"></div>\n'
+
+        
+        # Utility functions for text cleaning
+        def clean_brackets(s):
+            result_string = re.sub(r'\{.*?\}', '', s)
+            result_string = re.sub(r'\[.*?\]', '', result_string)
+            result_string = re.sub(r'\(.*?\)', '', result_string)
+            return re.sub(r'\s+', ' ', result_string).strip()
+        
+        def invert_brackets(s):
+            s = ''.join([")" if i == "(" else "(" if i == ")" else i for i in s])
+            s = ''.join(["}" if i == "{" else "{" if i == "}" else i for i in s])
+            return s
+        # Load Hebrew and English texts
+        hebrew = json.load(open(input.hebrew))['versions'][0]['text']
+        english = json.load(open(input.english))['versions'][0]['text']
+        
+        if isinstance(hebrew[0], str):
+            hebrew = [hebrew]
+            english = [english]
+        
+        verse, line = map(int, row.ref.split()[-1].split("-")[0].split(":"))
+        
+        for v_hebrew, v_english in zip(hebrew, english):
+            #add_paragraph_with_style(doc, f"{BOOK} {verse}", font_size=24)
+            doc += f"\n## {BOOK} {verse}\n"
+            for l_hebrew, l_english in (zip(v_hebrew, v_english)):
+                cleaned_hebrew  = (clean_brackets(BeautifulSoup(remove_footnotes_heb(l_hebrew),  "lxml").text))
+                cleaned_english = BeautifulSoup(remove_footnotes_heb(l_english), "lxml").text
+                doc += f"\n|{cleaned_hebrew}|{line}|{cleaned_english}|\n"
+                doc += "|--:|:-:|:--|\n"
+                doc += f"\n{comments[(verse, line)]} \n"
+                
+ 
+                line += 1
+            line = 1
+            verse += 1
+            doc += '<div style="page-break-after: always;"></div>\n'
+        doc += "\n\n\n"
+        # Save MD files
+        with open(output.book, "w") as f:
+            f.write(doc)
 
 
 rule make_book:
@@ -1003,8 +1084,94 @@ rule make_book:
     shell:
         'pdfbook2 "{input.pdf}" --paper=letter --no-crop && mv "parashot{wildcards.comments}/{wildcards.parasha}-book.pdf" "{output}"'
 
+rule make_the_BOOK_MD:
+    input:
+        "Introduction.MD",
+        lambda wildcards: expand("parashot_commentary/{parasha}.MD", parasha=parashot_list(wildcards)), #
+    output:
+        book = temporary(".BOOK.MD")
+    run:
 
+        out = ""
+        for i in input:
+            with open(i) as f:
+                out += f.read()
+        with open(output.book, "w") as f:
+            f.write(out)
 
+rule md_to_docx:
+    input:
+        md=".BOOK.MD"
+    output:
+        docx=temporary(".BOOK.docx")
+    shell:
+        'pandoc "{input.md}" -o "{output.docx}" -f markdown -t docx'
+
+rule fix_docx:
+    input:
+        docx=".BOOK.docx"
+    output:
+        docx="BOOK.docx"
+    run:
+
+        from docx import Document
+        from docx.oxml.ns import qn
+        from docx.oxml import OxmlElement
+        
+        # Function to set vertical alignment for a cell
+        def set_vertical_alignment(cell, alignment="top"):
+            tc = cell._tc  # Access the underlying XML for the table cell
+            tcPr = tc.get_or_add_tcPr()  # Get or create the table cell properties (tcPr)
+            
+            # Create or find the vertical alignment element
+            vAlign = tcPr.find(qn('w:vAlign'))
+            if vAlign is None:
+                vAlign = OxmlElement('w:vAlign')
+                tcPr.append(vAlign)
+            
+            # Set the alignment value ("top", "center", "bottom")
+            vAlign.set(qn('w:val'), alignment)
+
+        # Function to set table borders to white (or transparent)
+        def set_table_borders_white(table):
+            tbl = table._tbl  # Access the underlying XML for the table
+            
+            # Get or create the table properties (tblPr)
+            tblPr = tbl.tblPr
+            
+            # Create or access the borders element (tblBorders)
+            tblBorders = tblPr.find(qn('w:tblBorders'))
+            if tblBorders is None:
+                tblBorders = OxmlElement('w:tblBorders')
+                tblPr.append(tblBorders)
+            
+            # Modify or create the borders: top, left, bottom, right, insideH (horizontal), insideV (vertical)
+            for border_name in ['top', 'left', 'bottom', 'right', 'insideH', 'insideV']:
+                border = tblBorders.find(qn(f'w:{border_name}'))
+                if border is None:
+                    border = OxmlElement(f'w:{border_name}')
+                    tblBorders.append(border)
+                
+                # Set border color to white and border size to 0 to make it effectively transparent
+                border.set(qn('w:val'), 'single')
+                border.set(qn('w:sz'), '4')  # Border size (use 0 for completely invisible)
+                border.set(qn('w:space'), '0')
+                border.set(qn('w:color'), 'FFFFFF')  # Set to white
+        # Open the document
+        doc = Document(input.docx)
+
+        # Iterate through all the tables in the document
+        for table in doc.tables:
+            # Set the border color to white/transparent
+            set_table_borders_white(table)
+            
+            # Iterate through all rows and cells
+            for row in table.rows:
+                for cell in row.cells:
+                    # Set each cell to be aligned to the top
+                    set_vertical_alignment(cell, alignment="top")
+        # Save the modified document
+        doc.save(output.docx)
 
 rule all:
     input:

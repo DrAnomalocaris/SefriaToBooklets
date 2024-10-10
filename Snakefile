@@ -54,6 +54,28 @@ def parasha_verse(wildcards):
     return (parashot.loc[wildcards.parasha]['ref'])
 
 
+def parasha_lines(wildcards):
+    import json
+    from pprint import pprint
+    import pandas as pd
+    parashotFile = checkpoints.get_parasha.get(lang="english", parasha=wildcards.parasha).output[0] 
+    parashot = json.loads(open(parashotFile).read())['versions'][0]['text']
+    #parashot.index=parashot['en']
+    table = pd.read_csv(checkpoints.get_parashot_csv.get().output[0])
+    table.index=table['en']
+    ref = table.loc[wildcards.parasha]['ref'].split()[-1].split('-')[0]
+    book = table.loc[wildcards.parasha]['ref'].split()[0]
+    verse,line = ref.split(':')
+    verse,line = int(verse),int(line)
+    out = []
+    for Verse in parashot:
+        for _ in Verse:
+            out.append((book,verse, line))
+            line +=1
+        verse += 1
+        line = 1
+    return (out)
+        
 def remove_footnotes_en(s):
     # Parse the string with BeautifulSoup
     if type(s) == list: s = " ".join(s)
@@ -73,6 +95,7 @@ def remove_footnotes_en(s):
 
     # Get the cleaned-up text without any HTML tags
     return soup.get_text()
+
 def remove_footnotes_heb(s):
     s = s.replace("<br>", " ")
 
@@ -124,16 +147,16 @@ def summarize_text(text,refereces=False):
     
     return chat_completion.choices[0].message.content
 
-rule get_parasha:
+checkpoint get_parasha:
     input:
-        "parashot.csv"
+        parashotFile="parashot.csv"
     output:
         "sefaria/{lang}_{parasha}.json"
     run:
         import urllib.parse
         import requests
         import pandas as pd
-        parashot = pd.read_csv(parashotFile)
+        parashot = pd.read_csv(input.parashotFile)
         parashot.index=parashot['en']
         verses = (parashot.loc[wildcards.parasha]['ref'])
 
@@ -146,21 +169,15 @@ rule get_parasha:
         with open(output[0], "w") as f:
             f.write(response.text)
 rule get_commentary:
-    input:
-        parashotFile = "parashot.csv"
     output:
-        "sefaria/commentary_{parasha}.json"
+        #"sefaria/commentary_{parasha}.json",
+        "sefaria/commentary/{book}_{verse}_{line}.json"
     run:
         import urllib.parse
         import requests
         import pandas as pd
-        parashot = pd.read_csv(input.parashotFile)
-        parashot.index=parashot['en']
-        verses = (parashot.loc[wildcards.parasha]['ref'])
-        print()
-        encoded_reference = urllib.parse.quote(verses)
+        encoded_reference = urllib.parse.quote(f"{wildcards.book} {wildcards.verse}:{wildcards.line}")
         url = f"https://www.sefaria.org/api/links/{encoded_reference}"
-        print(url)
         headers = {"accept": "application/json"}
         response = requests.get(url, headers=headers)
         with open(output[0], "w") as f:
@@ -170,27 +187,29 @@ ruleorder: get_commentary>get_parasha
 
 rule parse_commentary:
     input:
-        commentary="sefaria/commentary_{parasha}.json"
+        #commentary="sefaria/commentary_{parasha}.json",
+        parts = lambda wildcards: [f"sefaria/commentary/{book}_{verse}_{line}.json" for book, verse, line in parasha_lines(wildcards)],
     output:
         "sefaria/commentary_{parasha}.csv",
     run:
         import json
         from pprint import pprint
         import pandas as pd
-        with open(input.commentary) as f:
-            commentsaries = json.load(f)
         out = []
-        for commentary in commentsaries:
-            ref = commentary["anchorRefExpanded"][-1]
-            if "Rav Hirsch on Torah" in commentary["ref"]: continue
+        for fname in input.parts:
+            with open(fname) as f:
+                commentsaries = json.load(f)
+                for commentary in commentsaries:
+                    ref = commentary["anchorRefExpanded"][-1]
+                    #if "Rav Hirsch on Torah" in commentary["ref"]: continue
 
-            out.append({
-                "verse" : int(ref.split()[-1].split(":")[0]),
-                "line" : int(ref.split()[-1].split(":")[1]),
-                "category" : commentary["category"],
-                "source" : commentary["ref"],
-                "text" : BeautifulSoup(remove_footnotes_en(commentary["text"]), "lxml").text
-            })
+                    out.append({
+                        "verse" : int(ref.split()[-1].split(":")[0]),
+                        "line" : int(ref.split()[-1].split(":")[1]),
+                        "category" : commentary["category"],
+                        "source" : commentary["ref"],
+                        "text" : BeautifulSoup(remove_footnotes_en(commentary["text"]), "lxml").text
+                    })
 
         df = pd.DataFrame(out)
         df = df[df.category != "Reference"]

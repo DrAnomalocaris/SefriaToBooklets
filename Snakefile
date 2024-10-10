@@ -60,6 +60,8 @@ def parasha_lines(wildcards):
     import pandas as pd
     parashotFile = checkpoints.get_parasha.get(lang="english", parasha=wildcards.parasha).output[0] 
     parashot = json.loads(open(parashotFile).read())['versions'][0]['text']
+    if type(parashot[0])==str:
+        parashot = [parashot]
     #parashot.index=parashot['en']
     table = pd.read_csv(checkpoints.get_parashot_csv.get().output[0])
     table.index=table['en']
@@ -171,7 +173,7 @@ checkpoint get_parasha:
 rule get_commentary:
     output:
         #"sefaria/commentary_{parasha}.json",
-        "sefaria/commentary/{book}_{verse}_{line}.json"
+        "sefaria/commentary/{book}/{verse}/{line}.json"
     run:
         import urllib.parse
         import requests
@@ -180,6 +182,8 @@ rule get_commentary:
         url = f"https://www.sefaria.org/api/links/{encoded_reference}"
         headers = {"accept": "application/json"}
         response = requests.get(url, headers=headers)
+        if response.text.startswith('{"error":'):
+            raise Exception(response.text)
         with open(output[0], "w") as f:
             f.write(response.text)
 
@@ -188,7 +192,7 @@ ruleorder: get_commentary>get_parasha
 rule parse_commentary:
     input:
         #commentary="sefaria/commentary_{parasha}.json",
-        parts = lambda wildcards: [f"sefaria/commentary/{book}_{verse}_{line}.json" for book, verse, line in parasha_lines(wildcards)],
+        parts = lambda wildcards: [f"sefaria/commentary/{book}/{verse:02}/{line:03}.json" for book, verse, line in parasha_lines(wildcards)],
     output:
         "sefaria/commentary_{parasha}.csv",
     run:

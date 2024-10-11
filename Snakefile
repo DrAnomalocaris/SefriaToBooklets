@@ -1249,7 +1249,16 @@ rule fix_docx:
 
         # Save the modified document
         doc.save(output.docx)
-
+        print("Done!")
+        print("")
+        print("remember to do these things in word, it is too complacated to do in snakemake:")
+        print("    - Pages numbers (centered).")
+        print("    - Table of contents, only one level.") 
+        print("    - Save as PDF.")
+        print("")
+        print("Ready for the presses!")
+        print("")
+        print("That all folks!")
 rule all:
     input:
         expand("BOOK_{book}.docx",

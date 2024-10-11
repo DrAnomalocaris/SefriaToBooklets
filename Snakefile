@@ -44,6 +44,7 @@ def parashot_list(wildcards):
     import pandas as pd
     parashotFile = checkpoints.get_parashot_csv.get().output[0] 
     parashot = pd.read_csv(parashotFile)
+    parashot = parashot[parashot['ref'].str.contains(wildcards.book)]
     return parashot['en'].tolist()
 
 def parasha_verse(wildcards):
@@ -188,7 +189,6 @@ rule get_commentary:
             f.write(response.text)
 
 ruleorder: get_commentary>get_parasha
-
 rule parse_commentary:
     input:
         #commentary="sefaria/commentary_{parasha}.json",
@@ -231,7 +231,8 @@ rule prepare_text_block_for_summary:
     run:
         import pandas as pd
         import pickle
-        comments = pd.read_csv(input.commentary)
+        with open(input.commentary) as f:
+            comments = pd.read_csv(f)
         comments = comments[comments.category == wildcards.category]
         out={}
         for _, row in comments.iterrows():
@@ -1052,8 +1053,7 @@ rule make_MD_with_commentary:
         
         # Add title page
 
-        doc += f"\n# **{row.n + 1}**: {bidi_hebrew[::-1]}|{wildcards.parasha}\n \n"
-        doc += f"\n  {row.ref} \n"
+        doc += f"\n# **{row.n + 1}**: {bidi_hebrew[::-1]}|{wildcards.parasha} ({row.ref})\n \n"
         doc += '<div style="page-break-after: always;"></div>\n'
 
         
@@ -1086,7 +1086,8 @@ rule make_MD_with_commentary:
                 cleaned_english = BeautifulSoup(remove_footnotes_heb(l_english), "lxml").text
                 doc += f"\n|{cleaned_hebrew}|{line}|{cleaned_english}|\n"
                 doc += "|--:|:-:|:--|\n"
-                doc += f"\n{comments[(verse, line)]} \n"
+                if (verse, line) in comments.keys():
+                    doc += f"\n{comments[(verse, line)]} \n"
                 
  
                 line += 1
@@ -1112,7 +1113,7 @@ rule make_the_BOOK_MD:
         "Introduction.MD",
         lambda wildcards: expand("parashot_commentary/{parasha}.MD", parasha=parashot_list(wildcards)), #
     output:
-        book = temporary(".BOOK.MD")
+        book = temporary(".BOOK_{book}.MD")
     run:
 
         out = ""
@@ -1124,23 +1125,75 @@ rule make_the_BOOK_MD:
 
 rule md_to_docx:
     input:
-        md=".BOOK.MD"
+        md=".BOOK_{book}.MD"
     output:
-        docx=temporary(".BOOK.docx")
+        docx=(".BOOK_{book}.docx")
     shell:
         'pandoc "{input.md}" -o "{output.docx}" -f markdown -t docx'
 
 rule fix_docx:
     input:
-        docx=".BOOK.docx"
+        docx=".BOOK_{book}.docx"
     output:
-        docx="BOOK.docx"
+        docx="BOOK_{book}.docx"
     run:
 
         from docx import Document
         from docx.oxml.ns import qn
         from docx.oxml import OxmlElement
-        
+        from docx.shared import Pt, RGBColor
+        from docx.enum.text import WD_ALIGN_PARAGRAPH
+        from docx.shared import Inches
+
+        # Open the document
+        doc = Document(input.docx)
+       
+        # Set the page width and height
+        doc.sections[0].page_width      = Inches(8.5)
+        doc.sections[0].page_height     = Inches(11)
+        doc.sections[0].top_margin      = Inches(0.25)
+        doc.sections[0].bottom_margin   = Inches(0.25)
+
+
+        # Access the "Heading 1" style
+        for style in doc.styles:
+            if style.name == "Heading 1":
+
+                # Modify font settings
+                font = style.font
+                font.bold = True
+                font.size = Pt(16)  # Optional: Set the font size
+                font.color.rgb = RGBColor(0, 0, 0)  # Set the font color to black
+
+                # Modify paragraph settings
+                paragraph_format = style.paragraph_format
+                paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER  # Center the text
+                paragraph_format.space_after = Pt(2)  # Optional: Adjust space after paragraph
+
+                # Add a page break before every Heading 1 paragraph
+                style.paragraph_format.page_break_before = True
+            elif style.name == "Heading 2":
+
+                # Modify font settings
+                font = style.font
+                font.bold = True
+                font.size = Pt(14)  # Optional: Set the font size
+                font.color.rgb = RGBColor(100, 100, 100)  # Set the font color to black
+
+                # Modify paragraph settings
+                paragraph_format = style.paragraph_format
+                paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER  # Center the text
+                paragraph_format.space_after = Pt(12)  # Optional: Adjust space after paragraph
+
+                # Add a page break before every Heading 1 paragraph
+                style.paragraph_format.page_break_before = False   
+            elif style.name == "Compact":
+                font = style.font
+                font.name = "SBL Hebrew"
+                paragraph_format = style.paragraph_format
+                paragraph_format.keep_together = True  # Ensure paragraph stays on the same page
+
+
         # Function to set vertical alignment for a cell
         def set_vertical_alignment(cell, alignment="top"):
             tc = cell._tc  # Access the underlying XML for the table cell
@@ -1180,8 +1233,6 @@ rule fix_docx:
                 border.set(qn('w:sz'), '4')  # Border size (use 0 for completely invisible)
                 border.set(qn('w:space'), '0')
                 border.set(qn('w:color'), 'FFFFFF')  # Set to white
-        # Open the document
-        doc = Document(input.docx)
 
         # Iterate through all the tables in the document
         for table in doc.tables:
@@ -1190,13 +1241,23 @@ rule fix_docx:
             
             # Iterate through all rows and cells
             for row in table.rows:
+                # Access the row properties and disable splitting across pages
+                row._tr.get_or_add_trPr().append(OxmlElement('w:cantSplit'))
                 for cell in row.cells:
                     # Set each cell to be aligned to the top
                     set_vertical_alignment(cell, alignment="top")
+
         # Save the modified document
         doc.save(output.docx)
 
 rule all:
     input:
-        lambda wildcards: expand("booklets/{parasha}.pdf", parasha=parashot_list(wildcards))
+        expand("BOOK_{book}.docx",
+            book=[
+                "Genesis",
+                "Exodus",
+                "Leviticus",
+                "Numbers",
+                "Deuteronomy"
+            ])
 

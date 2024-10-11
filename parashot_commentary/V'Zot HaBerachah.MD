@@ -1,8 +1,6 @@
 
-# **54**: וזאת הברכה|V'Zot HaBerachah
+# **54**: וזאת הברכה|V'Zot HaBerachah (Deuteronomy 33:1-34:12)
  
-
-  Deuteronomy 33:1-34:12 
 <div style="page-break-after: always;"></div>
 
 ## Deuteronomy 33

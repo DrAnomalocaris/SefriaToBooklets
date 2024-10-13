@@ -1017,6 +1017,58 @@ rule make_the_BOOK:
         merge_documents(input)
  """
 
+rule make_Elliott_dictionary:
+    input:
+        "ElliottFriedman.txt",
+    output:
+        "ElliottFriedman.pk"
+    run:
+        import pickle
+
+        REF = {}
+        def keepOnlyNumbers(s):
+            return int("".join([i for i in s if i.isdigit() ]))
+            
+
+
+        with open(input[0]) as f:
+            book=""
+            for line in f:
+                if line == "\n":
+                    continue
+                if line.startswith(">"):
+                    book = line[1:].strip()
+                    continue
+                autor,parts = line.split("~")
+                for part in parts.split(";"): 
+                    if part.strip() == "": continue
+                    try:
+                        verse,a = part.split(":")
+                    except:
+                        print(book,repr(a))
+                        raise ValueError(part)
+                    verse = keepOnlyNumbers(verse)
+                    for b in a.split(","):
+                        if "-" in b:
+                            try:
+                                start,end = b.split("-")
+                            except:
+                                print(book,repr(b))
+                                raise ValueError(b)
+                            start = keepOnlyNumbers(start)
+                            end = keepOnlyNumbers(end)
+                            for c in range(start,end+1):
+                                if not (book,verse,c) in REF:
+                                    REF[(book,verse,c)]=[]
+                                REF[(book,verse,c)].append(autor)
+                        else:
+                            b = keepOnlyNumbers(b)
+                            if not (book,verse,b) in REF:
+                                REF[(book,verse,b)]=[]
+                            REF[(book,verse,b)].append(autor)
+        with open(output[0], "wb") as f:
+            pickle.dump(REF, f)
+
 
 rule make_MD_with_commentary:
     input:
@@ -1024,6 +1076,7 @@ rule make_MD_with_commentary:
         hebrew="sefaria/hebrew_{parasha}.json",
         english="sefaria/english_{parasha}.json",
         commentary="sefaria/summaries/{parasha}/meta_summary.pkl",
+        ElliottFriednan="ElliottFriedman.pk",
 
     output:
         book="parashot_commentary/{parasha}.MD",
@@ -1038,6 +1091,7 @@ rule make_MD_with_commentary:
 
         # Load data
         comments = pd.read_pickle(input.commentary)
+        ElliottFriednan = pd.read_pickle(input.ElliottFriednan)
  
         row = pd.read_csv(input.table, index_col=1).loc[wildcards.parasha]
         BOOK = row.ref.split()[0]
@@ -1084,7 +1138,7 @@ rule make_MD_with_commentary:
             for l_hebrew, l_english in (zip(v_hebrew, v_english)):
                 cleaned_hebrew  = (clean_brackets(BeautifulSoup(remove_footnotes_heb(l_hebrew),  "lxml").text))
                 cleaned_english = BeautifulSoup(remove_footnotes_heb(l_english), "lxml").text
-                doc += f"\n|{cleaned_hebrew}|{line}|{cleaned_english}|\n"
+                doc += f"\n|{cleaned_hebrew}|{line} {' '.join(ElliottFriednan.get((BOOK,verse,line),['?']))}|{cleaned_english}|\n"
                 doc += "|--:|:-:|:--|\n"
                 if (verse, line) in comments.keys():
                     doc += f"\n{comments[(verse, line)]} \n"
@@ -1112,6 +1166,7 @@ rule make_the_BOOK_MD:
     input:
         "Introduction.MD",
         lambda wildcards: expand("parashot_commentary/{parasha}.MD", parasha=parashot_list(wildcards)), #
+        
     output:
         book = temporary(".BOOK_{book}.MD")
     run:

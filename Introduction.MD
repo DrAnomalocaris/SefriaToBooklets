@@ -1,6 +1,5 @@
 # Table of Content
 
-
 # Introduction
 
 The Torah, also known as the Five Books of Moses, has always held a special place in my heart. It’s a foundational text that offers wisdom, guidance, and spiritual depth. Every week, Jews around the world read a designated portion of the Torah, known as a parasha (parashot in plural), and reflect on its meaning. Alongside the Torah, generations of scholars have written extensive commentaries, offering their insights and interpretations of the sacred text. These commentaries add layers of richness to the Torah, but navigating through them can often be overwhelming due to their sheer volume and depth.
@@ -9,10 +8,61 @@ In this project, I wanted to create something that would help bridge that gap. U
 
 But I also recognize that not everyone has the time to dive into the full breadth of these commentaries each week. That’s where I’ve employed OpenAI’s GPT model to help summarize the vast commentaries into concise, digestible insights. My goal is to sacrifice the depth and wisdom of these scholars to make it accessible, whether you're a seasoned student of Torah or just starting out, to engage with the weekly readings. This way you can read from the generated booklet and have access to interesting notes.
 
-In this book, you’ll find each weekly parasha, followed by a summarized commentary that draws from centuries of tradition. It’s my hope that this resource will make it easier for readers to engage with the text and the accompanying commentary, offering a clearer path into the richness of the Torah.
+In this book, you’ll find each weekly parasha, both in hebrew and english and indicating which source from Richard Elliott Friedman's documentary theory they come from, followed by a summarized commentary that draws from centuries of tradition. It’s my hope that this resource will make it easier for readers to engage with the text and the accompanying commentary, offering a clearer path into the richness of the Torah.
 
 As part of my commitment to open learning, this project is open source and freely available for anyone to explore, contribute to, or use. You can find the source code on GitHub at https://github.com/DrAnomalocaris/SefriaToBooklets. I welcome contributions and feedback from the community to help this project grow and improve.
 
 I’ve created this book for those who want to study the Torah more deeply, but also for those who might feel daunted by the vastness of the traditional commentaries. Whether you’re reading for personal reflection or using it as a guide for weekly study, I hope these summaries will inspire you to delve deeper into the text and connect with the timeless wisdom it offers.
 
+# How to use
 
+Each chapter is a parasha, and each line is depicted as such:
+
+| text in Hebrew | line_number | text in English using Sefaria's default translation |
+| -------------: | :---------: | :-------------- |
+|                |   source   |                 |
+
+Followed by summarized commentary.
+
+The commentary was pulled from sefaria, however as, each line often contains a few textbook's worth of commentary, the commentary has been summarized using openAI GPT3.5.
+
+The source letter or code, is representative of the Documentary hypothesis, developed by Richard Elliott Friedman and published in 1997. Where based on the style and flow of the text, there seems to be various sources that were edited together. Those sources are:
+
+## Yahwist (J):
+
+This source is thought to be one of the earliest (around 950 BCE) and is characterized by its use of the name Yahweh (YHWH) for God.
+It often contains vivid, anthropomorphic descriptions of God and focuses on the southern kingdom of Judah.
+The name "J" comes from the German spelling of Yahweh ("Jahwe").
+
+The J source reflects the culture and religious practices of Judah.
+
+## Elohist (E):
+
+It is believed to have originated in the northern kingdom of Israel (around 850 BCE).
+The Elohist source emphasizes prophecy, dreams, and the fear of God.
+
+The E source reflects those of the northern kingdom of Israel.
+
+## Priestly (P):
+
+The "P" source is characterized by its focus on priestly concerns, such as rituals, genealogies, and laws.
+Scholars believe it was written during or after the Babylonian exile (around 550 BCE).
+This source is concerned with order, structure, and maintaining religious practices.
+
+The P source emerged when the Jewish people were concerned with maintaining religious identity during and after the Babylonian exile.
+
+## Deuteronomist (D):
+
+The "D" source is most notably associated with the book of Deuteronomy and is thought to have been written around 620 BCE, during the time of King Josiah’s religious reforms.
+It emphasizes the covenant between Israel and Yahweh, and stresses obedience to God's laws.
+
+For the book Deuteronomy, there seems to be two main sources:
+
+- DTR1: The original edition of the Deuteronomistic history was the work of someone who lived at the
+  time of Josiah.
+- DTR2: The second edition was the work of someone living after the kingdom fell.
+
+## Redactors (R):
+
+These different sources were likely written by different communities or schools of thought over several centuries.
+At some point, these documents were combined into a single text. Redactors (editors) wove them together, which is why we sometimes see inconsistencies or repetitions in the text.

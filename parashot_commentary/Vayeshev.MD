@@ -1,7 +1,6 @@
 
 # **9**: וישב|Vayeshev (Genesis 37:1-40:23)
  
-<div style="page-break-after: always;"></div>
 
 ## Genesis 37
 
@@ -184,7 +183,6 @@ Joseph instructed his brothers not to engage in halachic discussions while on th
 |--:|:-:|:--|
 
 The term "hatabachim" in Genesis 37:36 refers to the slaughterers or executioners of the king, with Potiphar identified as the chief executioner by various commentators. Joseph's brothers sold him to the Midianites, who then sold him to the Ishmaelites, leading to his mistreatment along the way. Yosef's downfall is attributed to his behavior in bearing tales about his brothers and insisting on telling them his dreams, which leads to his eventual sale into slavery. Pinehas went to war with Midian to exact judgment on behalf of his grandfather Joseph, and Nebuchadnezzar besieged Jerusalem, leading to its destruction and the exile of the people. Joseph was sold by the Midianites in Egypt to Potiphar, who was an officer and captain of the guards for Pharaoh. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 38
 
@@ -351,7 +349,6 @@ The birth of twins Peretz and Zerach symbolizes the journey towards spiritual gr
 |--:|:-:|:--|
 
 The "crimson thread" in Genesis 38:30 represents the shining of the Light of the Face, symbolizing a warning and linked to the sun's redness at sunrise and sunset, with Zerach and Peretz symbolizing the sun and the moon respectively. Zerach was considered the firstborn by hand emergence, but Peretz was recognized as the firstborn for emerging fully from the womb, paralleling Achan's four acts of sacrilege. Judah marries Tamar, leading to the birth of twins Perez and Zarah, while Joseph is imprisoned in Egypt, and Pharaoh's officers find issues with the king's food. Chapter 38 of Genesis develops Yehuda's character, highlighting the continuity and discontinuity between generations and the lineage leading to royalty, providing crucial development for Yehuda before the story continues in Chapter 39. In labor, one of the twins puts out a hand, and the midwife ties a crimson thread on it to indicate he was the first to come out, named Zorach or Zarach due to the scarlet thread. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 39
 
@@ -469,7 +466,6 @@ Joseph was the supervisor of the other prisoners in jail, overseeing their work 
 |--:|:-:|:--|
 
 Joseph's success in prison was attributed to God's presence with him, leading the commandant to trust him completely. Despite being falsely accused and pursued by Zulycah, Joseph remained steadfast in his faith. The story in Genesis 39 reflects a pattern of success, imprisonment, and rise to power, with key words connecting different elements. The Targum emphasizes that the prison chief trusted Joseph due to seeing no fault in him, attributing his success to the Word of the Lord. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 40
 
@@ -587,7 +583,6 @@ The chief baker in Genesis was hanged for negligence after a pebble was found in
 |--:|:-:|:--|
 
 The chief butler forgot about Joseph, delaying his release from prison for two years. The lesson is to trust in God rather than relying on others. Moses, Queen Esther, and Joseph showed humility and gratitude by not overlooking those who had helped them. Joseph's trust in the chief butler instead of God led to his delayed release. 
-<div style="page-break-after: always;"></div>
 
 
 

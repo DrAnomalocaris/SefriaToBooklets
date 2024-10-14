@@ -236,10 +236,10 @@ rule prepare_text_block_for_summary:
         comments = comments[comments.category == wildcards.category]
         out={}
         for _, row in comments.iterrows():
-            if not (row.verse, row.line) in out:
-                out[(row.verse, row.line)] = ""
+            if not (int(row.verse), int(row.line)) in out:
+                out[(int(row.verse), int(row.line))] = ""
 
-            out[(row.verse, row.line)] += f"{row.source}\n{row.text}\n\n"
+            out[(int(row.verse), int(row.line))] += f"{row.source}\n{row.text}\n\n"
 
         with open(output[0], "wb") as f:
             pickle.dump(out, f)
@@ -1108,7 +1108,6 @@ rule make_MD_with_commentary:
         # Add title page
 
         doc += f"\n# **{row.n + 1}**: {bidi_hebrew[::-1]}|{wildcards.parasha} ({row.ref})\n \n"
-        doc += '<div style="page-break-after: always;"></div>\n'
 
         
         # Utility functions for text cleaning
@@ -1147,7 +1146,6 @@ rule make_MD_with_commentary:
                 line += 1
             line = 1
             verse += 1
-            doc += '<div style="page-break-after: always;"></div>\n'
         doc += "\n\n\n"
         # Save MD files
         with open(output.book, "w") as f:
@@ -1182,7 +1180,7 @@ rule md_to_docx:
     input:
         md=".BOOK_{book}.MD"
     output:
-        docx=(".BOOK_{book}.docx")
+        docx=temporary(".BOOK_{book}.docx")
     shell:
         'pandoc "{input.md}" -o "{output.docx}" -f markdown -t docx'
 

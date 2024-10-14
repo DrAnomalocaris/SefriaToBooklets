@@ -1,7 +1,6 @@
 
 # **6**: תולדות|Toldot (Genesis 25:19-28:9)
  
-<div style="page-break-after: always;"></div>
 
 ## Genesis 25
 
@@ -84,7 +83,6 @@ Jacob secured Esau's sale of the birthright with an oath to ensure its validity 
 |--:|:-:|:--|
 
 Esau despised his birthright symbolizing inner intelligence and vitality, leading to disgrace in the Kingdom of Evil and the moon of the Other Side. Various commentators offer different perspectives on Esau's reasons for despising the birthright, with some attributing it to his focus on immediate gratification and others to his lack of moral stature. Esau's actions of giving up his birthright for food and showing no regret highlight his disdain for spiritual matters, contrasting with Jacob's value for truth. The Talmud provides evidence of Esau's sinful behavior, including engaging in immoral acts and denying God's existence. Ultimately, Esau's actions symbolize a rejection of his spiritual inheritance and a denial of future blessings. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 26
 
@@ -262,7 +260,6 @@ Esau married Yehudit and Basmat, symbolizing his spiritual corruption and disreg
 |--:|:-:|:--|
 
 Esau's wives caused mental anguish and discord within the family, leading to frustration and opposition to the parents' wishes. Their rebellious behavior, possibly influenced by idol worship, resulted in Esau receiving a blessing that fueled his hatred towards Jacob, leading to Jacob fleeing for his life. The wives' conduct significantly impacted family dynamics and subsequent events. The term "מורה" in Deuteronomy 21:18:3 is interpreted by Chizkuni as meaning "rebellious," as seen in Genesis 26:35. The Targums on Genesis 26:35 describe Esau's wives as rebellious and disrespectful, engaging in strange worship and rejecting instruction from Isaac and Rebekah. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 27
 
@@ -495,7 +492,6 @@ Chasidut emphasizes the importance of fulfilling commandments before enjoying th
 |--:|:-:|:--|
 
 Rebecca's concern for Jacob's safety and the preservation of the Holy Temple led her to suggest he marry someone from her family far away to avoid intermarriage with the Canaanites. Jacob's settlement in Canaan symbolized his return to his father's land, while Joseph's actions of tale-bearing caused jealousy among his brothers. Rebecca's disgust with the idea of a life against God's will is connected to the destruction of the Temple, emphasizing the Jewish people's connection to God. The term "קץ" signifies loathsomeness or being fed up with life, as seen in references to Rivkah in Genesis 27:46 and other verses. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 28
 
@@ -543,7 +539,6 @@ Esau, realizing his Canaanite wives displeased his father Isaac, married a daugh
 |--:|:-:|:--|
 
 Esau married Mahalat, the daughter of Ishmael, to bring spirituality into his household, influenced by a desire to connect to Abraham's lineage. The concept of creatures sticking with their own kind is illustrated through examples like Esau going to Yishmael and birds of the same kind being ritually impure or pure. The story of Yaakov's deceit and blessing in Genesis highlights sensuality and love, with Yitzhak's blindness leading to deception and the proper transfer of the blessing. Forgiveness of sins is compared to forgiveness granted to a proselyte and is illustrated through various examples in Jewish texts. 
-<div style="page-break-after: always;"></div>
 
 
 

@@ -1,7 +1,6 @@
 
 # **3**: לך לך|Lech-Lecha (Genesis 12:1-17:27)
  
-<div style="page-break-after: always;"></div>
 
 ## Genesis 12
 
@@ -104,7 +103,6 @@ Chasidut explains that the completion of Divine service on Rosh Hashanah is fulf
 |--:|:-:|:--|
 
 Chasidut explains how Yaakov's messengers symbolize a tzadik's connection to the Blessed One through prayer, creating angels that elevate the soul and transform relationships. Commentary highlights Pharaoh's protection of Abraham and Sarah, leading to Israel's exile in Egypt for four hundred years. Jewish Thought discusses Abraham's spiritual growth through struggles, prioritizing spiritual values over material possessions. Midrash emphasizes humility and compassion in divine interactions, paving the way for future generations. Quoting Commentary shows examples of God's protection and divine favor for Abraham's family. Talmud discusses the benefits of Torah study and safety in companionship. Tanakh mentions Joshua's command regarding guarding a cave, while Targum describes Pharaoh's escort of Abraham and his possessions. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 13
 
@@ -197,7 +195,6 @@ Chasidut emphasizes Jacob's ability to extract sparks from the Land of Israel th
 |--:|:-:|:--|
 
 Abram built altars and preached in the name of the Lord as he moved his tent from place to place, settling in Eloney Mamre in Hebron. He promoted peace by allowing Lot to choose his land first, showing loyalty to God by maintaining his distance from evil inhabitants. Abram's unwavering faith was demonstrated when he survived being thrown into a fiery furnace by Nimrod. Lot chose the sinful land of Sedom and Amora, while Abram settled in the promised land of Canaan, receiving a clear promise of descendants from God. In the Plains of Mamre in Hebron, Abram built an altar before the Lord and set up his tent for oxen and sheep. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 14
 
@@ -320,7 +317,6 @@ Abraham's refusal to accept any spoils of war from the king of Sodom, even a thr
 |--:|:-:|:--|
 
 Abraham distributed the spoils of war to his allies, refusing to take any portion for himself, as seen in Genesis 14:24. This practice of distributing spoils to those who stayed behind continued in biblical stories and was debated by scholars as both historical and symbolic, potentially establishing Abraham as a powerful local figure. Abraham's refusal to accept property that did not belong to him, as explained by Rabbi Abba in the Talmud, highlights the difficulty of returning consumed theft even for the perfectly righteous. Additionally, in the Tanakh, God's people willingly join Him in battle on His appointed day. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 15
 
@@ -428,7 +424,6 @@ Ibn Ezra explains that the Rephaim in Genesis 15:20 refers to the land of Rephai
 |--:|:-:|:--|
 
 Radak explains that the land of the Philistines is considered part of the Canaanite territory, as mentioned in Joshua 13:3. Liturgy reflects prayers invoking the Covenant between the divided pieces and calling on God for mercy and protection for Israel. In Midrash, Abram returns all property of Sodom and Lot, refusing to take anything for himself, and instructs his servant to find a wife for Isaac without returning him to Haran. Quoting Commentary discusses the covenant between God and Pinchas/Elijah as a fulfillment of the promise to Abraham in Genesis 15, emphasizing the eradication of idol worship. Tanakh includes Moses instructing the Israelites to travel to various regions and Isaiah prophesizing a ruler who will bring justice and defeat enemies. Targum translations mention the tribes of the Canaanite territory. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 16
 
@@ -511,7 +506,6 @@ Avram and Hagar both named their son Ishmael as instructed by the angel, with Av
 |--:|:-:|:--|
 
 Avram was 86 years old when Ishmael was born, and Ishmael was 13 when circumcised. The Midrash mentions Sarai's barrenness leading to Hagar bearing children for Avram, and the Talmud notes Ishmael's age to calculate Jacob's years. Additionally, the Torah mentions Ishmael's age at death out of respect for Avraham. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 17
 
@@ -649,7 +643,6 @@ Abraham and his household, including Ishmael, were all circumcised on the same d
 |--:|:-:|:--|
 
 In Genesis 17:27, Ibn Ezra explains the word "nimmolu" as a nifal verb, Radak states its root is "nimol," and Chizkuni notes that all males in Abraham's household, including slaves, were willingly circumcised. Halakhah dictates circumcision as a positive mitzvah, with failure punishable by karet, while the Midrash discusses the legal status of women with ruptured hymens, Rebecca's purity, and the importance of circumcision for slaves and idolaters. The Targum emphasizes that all males in Abraham's household were circumcised, whether born or purchased. 
-<div style="page-break-after: always;"></div>
 
 
 

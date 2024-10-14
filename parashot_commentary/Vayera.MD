@@ -1,7 +1,6 @@
 
 # **4**: וירא|Vayera (Genesis 18:1-22:24)
  
-<div style="page-break-after: always;"></div>
 
 ## Genesis 18
 
@@ -103,7 +102,6 @@
 
 |וַיֵּ֣לֶךְ יְהֹוָ֔ה כַּאֲשֶׁ֣ר כִּלָּ֔ה לְדַבֵּ֖ר אֶל־אַבְרָהָ֑ם וְאַבְרָהָ֖ם שָׁ֥ב לִמְקֹמֽוֹ׃|33 J|Having finished speaking to Abraham, יהוה departed; and Abraham returned to his place.|
 |--:|:-:|:--|
-<div style="page-break-after: always;"></div>
 
 ## Genesis 19
 
@@ -220,7 +218,6 @@
 
 |וְהַצְּעִירָ֤ה גַם־הִוא֙ יָ֣לְדָה בֵּ֔ן וַתִּקְרָ֥א שְׁמ֖וֹ בֶּן־עַמִּ֑י ה֛וּא אֲבִ֥י בְנֵֽי־עַמּ֖וֹן עַד־הַיּֽוֹם׃|38 J|And the younger also bore a son, and she called him Ben-ammi;  he is the father of the Ammonites of today.|
 |--:|:-:|:--|
-<div style="page-break-after: always;"></div>
 
 ## Genesis 20
 
@@ -277,7 +274,6 @@
 
 |כִּֽי־עָצֹ֤ר עָצַר֙ יְהֹוָ֔ה בְּעַ֥ד כׇּל־רֶ֖חֶם לְבֵ֣ית אֲבִימֶ֑לֶךְ עַל־דְּבַ֥ר שָׂרָ֖ה אֵ֥שֶׁת אַבְרָהָֽם׃|18 E|for יהוה had closed fast every womb of the household of Abimelech because of Sarah, the wife of Abraham.|
 |--:|:-:|:--|
-<div style="page-break-after: always;"></div>
 
 ## Genesis 21
 
@@ -382,7 +378,6 @@
 
 |וַיָּ֧גׇר אַבְרָהָ֛ם בְּאֶ֥רֶץ פְּלִשְׁתִּ֖ים יָמִ֥ים רַבִּֽים׃|34 E|And Abraham resided in the land of the Philistines a long time.|
 |--:|:-:|:--|
-<div style="page-break-after: always;"></div>
 
 ## Genesis 22
 
@@ -457,7 +452,6 @@
 
 |וּפִֽילַגְשׁ֖וֹ וּשְׁמָ֣הּ רְאוּמָ֑ה וַתֵּ֤לֶד גַּם־הִוא֙ אֶת־טֶ֣בַח וְאֶת־גַּ֔חַם וְאֶת־תַּ֖חַשׁ וְאֶֽת־מַעֲכָֽה׃|24 J|And his concubine, whose name was Reumah, also bore [sons]—Tebah, Gaham, and Tahash—and [a daughter,]  Maacah.|
 |--:|:-:|:--|
-<div style="page-break-after: always;"></div>
 
 
 

@@ -1,7 +1,6 @@
 
 # **2**: נח|Noach (Genesis 6:9-11:32)
  
-<div style="page-break-after: always;"></div>
 
 ## Genesis 6
 
@@ -74,7 +73,6 @@ The Torah explains why man was forbidden to eat animals until the deluge, with N
 |--:|:-:|:--|
 
 Noah faithfully followed all of God's instructions in building the ark and gathering food, but he failed to enter the ark before the seven days as instructed. The repetition of Noah's obedience in Genesis is compared to the Children of Israel's complete adherence to God's commandments in Exodus, highlighting the praiseworthiness of both Noah and the Israelites in aligning themselves with God's will. Noah's obedience is also emphasized in the Targum, which states that he obeyed all the commands given to him by God. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 7
 
@@ -197,7 +195,6 @@ Various commentators, including Ramban, Ibn Ezra, Sforno, Radak, and Rashi, inte
 |--:|:-:|:--|
 
 The flood waters rose for 150 days after 40 days of rain, with the ark coming to rest on Mount Ararat on the 17th of the seventh month. Noach used instruments to measure time inside the ark, with the waters beginning to recede after 150 days, and the earth drying up after a total of 57 days, allowing Noach to exit the ark. Despite challenges, all creatures survived highlighting God's providence. Rashi and Ramban disagree on the interpretation of the depth of the water and the timing of events during the flood, with Ramban suggesting the hundred and fifty days include the forty days of rain and the ark resting on the mountains of Ararat on the seventeenth day of the seventh month. Onkelos and Targum Jonathan also state that the waters covered the earth for 150 days. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 8
 
@@ -310,7 +307,6 @@ Chasidut discusses Noach's positive actions towards God and the attribute of mer
 |--:|:-:|:--|
 
 Chasidut emphasizes the incomprehensibility of God's Essence and Being, while the Commentary discusses the division of the year into seasons and the covenant with mankind. Halakhah delves into the interpretation of verses related to Sabbath observance, and Jewish Thought explores the Eternity of the Universe and the significance of miracles. Kabbalah focuses on the four directions in Genesis, while Midrash discusses the settlement of Noah's descendants and the importance of observing the Sabbath. Quoting Commentary touches on sacrifices and the covenant with Noah, and Second Temple emphasizes the unchanging nature of seasons. In the Talmud, the liability of a gentile observing Shabbat is discussed, and Targum emphasizes the continuity of cycles on earth. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 9
 
@@ -458,7 +454,6 @@ The Torah lists the ages of antediluvian people to trace back to Adam's creation
 |--:|:-:|:--|
 
 Noah died at 950 years old, with the year in the ark not counted in his lifespan according to the Torah. Rabbi Yehuda and Rabbi Neḥemya debated whether the year of the Flood should be included in Noah's total years. The crime of "seeing the father's nakedness" in Genesis is interpreted as referring to the sexual immorality of the Canaanites. Philo's treatise on drunkenness explores Moses' symbolic use of wine, focusing on the truth revealed by nakedness. The Targum states that Noah lived for 950 years before his death. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 10
 
@@ -621,7 +616,6 @@ The descendants of Shem spread out into families, clans, and tribes, each develo
 |--:|:-:|:--|
 
 The descendants of Noah's sons, totaling 70 nations, were scattered across the globe after the Tower of Babel, with 14 from Japheth, 30 from Ham, and 26 from Shem being considered the founding fathers. Each nation bears the names of these ancestors, with Jerusalem being HaShem's portion of the earth and the Jewish people being His portion in the nations. The unity of language on earth after the dispersion of nations is discussed in the Midrash, with a parallel drawn to the forgetfulness of a fool being beaten, and a plea from the Jewish people to God to be saved from their enemies. The Targum describes how the nations were separated on earth based on the descendants of Noah's sons. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 11
 
@@ -784,7 +778,6 @@ Avram and his family initially planned to settle in Canaan but stayed in Charan 
 |--:|:-:|:--|
 
 Rabbi Abraham invited the Rebbe to spend one Shabbat with him on the Shabbat of Noah, after initially declining to move in permanently, on 3 Cheshvan. Terah's death in Haran at 205 years old was noted before Abram's departure to avoid criticism, with speculation that he may have repented at death. The Mishnah highlights the ten generations from Adam to Noah and from Noah to Abraham as demonstrations of God's patience, while the Second Temple commentary suggests Terah died as a virtuous explorer. 
-<div style="page-break-after: always;"></div>
 
 
 

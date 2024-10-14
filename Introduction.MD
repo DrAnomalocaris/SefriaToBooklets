@@ -66,3 +66,44 @@ For the book Deuteronomy, there seems to be two main sources:
 
 These different sources were likely written by different communities or schools of thought over several centuries.
 At some point, these documents were combined into a single text. Redactors (editors) wove them together, which is why we sometimes see inconsistencies or repetitions in the text.
+
+# Commentary Sources
+
+These terms from Sefaria's API represent categories of Jewish texts and literature, each with distinct areas of focus within Jewish tradition:
+
+**Chasidut**: Texts from the Hasidic tradition, focusing on mysticism, spirituality, and devotional practices, often linked to the teachings of Hasidic masters.
+
+**Commentary**: Explanations and interpretations of primary Jewish texts such as the Torah, Talmud, and Tanakh. These provide deeper understanding and context.
+
+**Guides**: Instructional or ethical texts designed to offer practical or spiritual guidance on Jewish law, customs, or philosophical matters.
+
+**Halakhah**: Jewish legal texts that discuss Jewish law (derived from the Torah, Talmud, and later rabbinic decisions) and how it applies to everyday life.
+
+**Jewish Thought**: Philosophical works discussing theology, ethics, and metaphysical questions from a Jewish perspective, including medieval and modern Jewish philosophy.
+
+**Kabbalah**: Mystical and esoteric texts that explore the nature of God, the universe, and the soul, including works like the Zohar.
+
+**Liturgy**: Prayer books and other texts related to Jewish worship and rituals, including the Siddur and Machzor.
+
+**Midrash**: Rabbinic stories and commentary that explore and expand upon biblical narratives, often with a focus on moral or theological lessons.
+
+**Mishnah**: The foundational text of the Oral Torah, outlining Jewish laws and practices. It serves as the basis for the Talmud.
+
+**Musar**: Ethical and moral teachings that emphasize character development and the refinement of personal conduct.
+
+**Quoting Commentary**: Commentaries that heavily quote or reference other works, such as traditional rabbinic literature, to build their interpretations.
+
+**Responsa**: Rabbinic legal opinions written in response to specific questions about Jewish law, often used to apply Halakhah to new or complex situations.
+
+**Second Temple**: Texts from or about the Second Temple period (516 BCE to 70 CE), a formative time in Jewish history and literature.
+
+**Talmud**: The central text of Rabbinic Judaism, consisting of the Mishnah and Gemara, which provide extensive discussions on Jewish law, ethics, and theology.
+
+**Tanakh**: The Hebrew Bible, including the Torah (Law), Nevi'im (Prophets), and Ketuvim (Writings), the foundational text of Judaism.
+
+**Targum**: Aramaic translations and paraphrases of the Hebrew Bible, used for teaching and studying the scriptures in communities where Aramaic was spoken.
+
+**Tosefta**: A collection of Jewish legal texts similar to the Mishnah, often providing additional or alternative interpretations.
+
+All available commentary was summarized (likely too much) by GPT 3.5 model.
+

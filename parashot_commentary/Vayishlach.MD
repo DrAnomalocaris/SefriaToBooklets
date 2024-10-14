@@ -1,7 +1,6 @@
 
 # **8**: וישלח|Vayishlach (Genesis 32:4-36:43)
  
-<div style="page-break-after: always;"></div>
 
 ## Genesis 32
 
@@ -154,7 +153,6 @@ Chasidut emphasizes the importance of building words of holiness from sparks, wi
 |--:|:-:|:--|
 
 The prohibition against eating the sciatic nerve originates from Jacob wrestling with an angel, symbolizing his struggle and victory, leading to the prohibition of that part of the animal. This prohibition serves as a moral lesson, reminding of the need for divine protection and avoiding defiled elements, with mystical significance linked to the Sefirah of Foundation-Yesod. The prohibition applies to both domesticated and wild animals, even in cases of consecration, and must be removed from both sides of the animal, with severe consequences for consuming even a small amount of the nerve. The prohibition is broader than eating sacrificial animals and applies to descendants of Noah, with differing opinions on its application to non-kosher animals and birds. The Targum explains that the prohibition stems from Jacob's wrestling match with an angel, resulting in the displacement of the tendon on the hip joint, which the children of Israel do not eat as a reminder of that event. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 33
 
@@ -257,7 +255,6 @@ Various commentaries discuss Jacob's purchase of a portion of land in Shechem, w
 |--:|:-:|:--|
 
 Chasidut explains the association of El with strength and truth in prayer, emphasizing the ability to connect with God and nullify His decrees. In commentary, altars were named to honor God's presence and protection, reflecting the Divine Presence in the Land of Israel. Jewish Thought explores the significance of different names for God, while Kabbalah delves into the distinctions between lower and upper grades in relation to God's names. Midrash highlights God's interactions with Jacob and the people, emphasizing gratitude and acceptance of His kingdom. Musar discusses Jacob's spiritual journey and achievements, including prevailing over evil and achieving spiritual perfection. Quoting commentary further expands on the naming of altars and the significance of God's involvement, while Talmud and Targum focus on the naming of altars by Jacob as a tribute to God. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 34
 
@@ -415,7 +412,6 @@ Jacob was concerned that Simeon and Levi's actions in Shechem would lead to reta
 |--:|:-:|:--|
 
 Simeon and Levi seek vengeance for the violation of their sister Dinah by Shechem, arguing that she was not willingly involved and should not be treated as a harlot. The brothers' actions instill fear in other nations, justifying their brutal response according to the Midrash and Targum commentaries. Dinah's brothers are criticized for their lack of communication and support after the incident, highlighting the importance of listening to and standing by those who have been wronged according to the Dirshuni II commentary. The Akeidat Yitzchak commentary emphasizes the role of intermediaries like Moses in repairing the relationship between G-d and His people, while the Musar commentary suggests that Jacob's punishment for a minor impropriety led to the events involving Dinah and Reuben and Bilhah. The complexity of right and wrong is further explored in the Quoting Commentary, where Simeon and Levi's violent actions lead to condemnation from Jacob, questioning the morality of their actions. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 35
 
@@ -563,7 +559,6 @@ Isaac lived to be 180 years old, with the Torah not mentioning "which he lived" 
 |--:|:-:|:--|
 
 Chasidut emphasizes Avram's unwavering faith in God and the importance of his descendants in God's plan. Commentary highlights the non-chronological order of events in the Torah, while Midrash discusses the aftermath of Simeon and Levi's actions. Musar delves into the significance of honoring parents, and Quoting Commentary reflects on Yaakov's return to Canaan. Second Temple commentary discusses Isaac's unique status, and Talmud and Targum focus on Ishmael's repentance and Yitzchok's burial. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 36
 
@@ -781,7 +776,6 @@ Steinsaltz emphasizes the significance of the chieftains mentioned in Genesis 36
 |--:|:-:|:--|
 
 Chasidut teaches that speaking slander can be elevated by studying Torah with the twenty-two letters, with the letter aleph being closest to G-d. Ramban, Gur Aryeh, and Rashi identify Magdiel as representing Rome, with Gur Aryeh adding that Rome will be humbled by Hashem. The Book of Concealment is described as a balanced book, referencing the kings of Edom. Jacob receives a vision from God at Mount Moriah and later meets Laban in Haran. Yitzhak is portrayed as a stabilizing force in Genesis, while Rivka emerges as a dynamic figure bridging dreams and reality. The Gemara discusses individuals who remain wicked from beginning to end, such as Ahasuerus and Esau. The verse in Tanakh lists the kings of Edom before any king reigned over Israel, mentioning Bela son of Beor. The chiefs of Edom, Magdiel and Iram, were known for their strong cities and were descendants of Esau. 
-<div style="page-break-after: always;"></div>
 
 
 

@@ -1,7 +1,6 @@
 
 # **12**: ויחי|Vayechi (Genesis 47:28-50:26)
  
-<div style="page-break-after: always;"></div>
 
 ## Genesis 47
 
@@ -24,7 +23,6 @@ Joseph, a virtuous man, promised his father Jacob to bury him in the Land of Isr
 |--:|:-:|:--|
 
 Yaakov asked Yosef to swear to bury him in Eretz Yisrael to transfer spiritual power and ensure Yaakov's legacy continued through him, causing the brothers to fear Yosef's newfound spiritual power. Joseph's oath was needed to fulfill Jacob's last wish, as Jacob was concerned his body would not be buried in Egypt as an idol. Bedtime prayers in the Siddur Sefard and Siddur Ashkenaz ask for peaceful rest and protection from evil, with a figurative reference to Jacob's offspring being pure. The Gemara questions calling Joseph a fox, suggesting it was a recognition of his greatness. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 48
 
@@ -137,7 +135,6 @@ Jacob, close to death, reassures Joseph that God will be with his descendants an
 |--:|:-:|:--|
 
 Prayer is a powerful weapon in Chasidut, as demonstrated in Genesis 48:22 and Psalms 44:7, 9, with Jacob blessing Joseph with the birthright and Shechem. Unity among the people of Israel is essential for serving God, as seen in Judges 20:11 and Proverbs 4:23. Jacob's blessing to Joseph's sons symbolizes prayer and intercession in Jewish Thought, while the synagogue and Torah-learning academies symbolize the presence of the Shechinah in Kabbalah. In Midrash, Judah's confrontation with Joseph leads to a reunion with his family in Egypt, where Joseph ensures their well-being. Musar emphasizes charity, struggle against evil, and prayer as weapons in battle, as seen in Psalms 85:14 and Exodus 30:12. Jacob's blessing of Joseph's sons in Second Temple times connects to the division of Canaan amongst the tribes, while Talmud explains that Jacob's bequest to Joseph was obtained through prayer, not physical weapons. Yaakov assigns Efrayim and Menashe two portions of land in Canaan in Tanakh, and Targum interprets Jacob's gift of Shekem to Joseph as prayer and plea. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 49
 
@@ -305,7 +302,6 @@ Jacob clarified the purchase of the field and cave from the Hittites to avoid th
 |--:|:-:|:--|
 
 Yaakov Avinu did not die in the traditional sense, with his soul remaining connected to his body after death, supported by Rashi and other sages. The concept of a "second body" is mentioned, allowing for a continued connection between the physical and spiritual realms. Man can share his wealth and moral stature with others, with spiritual powers being enhanced in old age, as seen with Jacob, Elijah, and Moses. Jacob instructed his sons to carry his body to be buried in Canaan, assigning specific roles to each son based on direction, advising them to honor each other, serve the Lord, forgive each other's transgressions, and protect one another. Aaron is not allowed to enter the land assigned to the Israelites because he disobeyed God's command regarding the Waters of Meribah, and uncircumcised males who fail to circumcise themselves will be cut off from their kin for breaking God's covenant. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 50
 
@@ -438,7 +434,6 @@ Joseph made the Children of Israel swear to take his remains out of Egypt upon t
 |--:|:-:|:--|
 
 The text discusses the descent of Divine light into materiality to elevate Torah, highlighting Joseph's descent to Egypt as an example. Commentary delves into the significance of Joseph's preparation of his own coffin and Moses retrieving his remains. R. Nathan believed Joseph's grave was in royal tombs, emphasizing his righteousness. Musar emphasizes prioritizing spiritual service over bodily pleasures, citing the Zohar as an example. The Patriarchal Narratives in Genesis focus on God's promises and struggles of each generation. In Exodus 40:38, a cloud of יהוה rested over the Tabernacle by day, with fire appearing at night. Targum describes Joseph's embalming and placement in a coffin in Egypt. 
-<div style="page-break-after: always;"></div>
 
 
 

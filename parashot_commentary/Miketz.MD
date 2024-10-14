@@ -1,7 +1,6 @@
 
 # **10**: מקץ|Miketz (Genesis 41:1-44:17)
  
-<div style="page-break-after: always;"></div>
 
 ## Genesis 41
 
@@ -289,7 +288,6 @@ The concept of wealth and blessings being hidden within the mundane is highlight
 |--:|:-:|:--|
 
 All countries came to Egypt to buy grain from Joseph during a severe famine, fulfilling the prophecy that all the earth would come to him. Joseph ruled as king for forty years after being appointed second to the king of Egypt, implementing strict laws for purchasing food. In Zohar, Joseph symbolizes justice and is favored by God, while in Targum, people from all countries sought grain from Joseph as a place of economic refuge. Rav Yehuda said Joseph collected all the silver and gold in the world and brought it to Egypt during the famine, as stated in Genesis 47:14. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 42
 
@@ -482,7 +480,6 @@ Reuben offered to have his two sons be punished if he failed to bring Benjamin b
 |--:|:-:|:--|
 
 Yaakov trusted Yehudah with Benjamin's safety, as he feared losing Rachel's only remaining son. Esau and his sons dwelt in the land of Seir, while Jacob's sons prospered in Canaan. Joseph's success in Egypt led to him being favored by the king and marrying Asenath. Yaakov refused to let Benjamin go with his brothers due to the sorrow he experienced from losing Joseph. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 43
 
@@ -655,7 +652,6 @@ In the Chasidut commentary, the brothers drank wine with Yosef as a form of repa
 |--:|:-:|:--|
 
 Ibn Ezra defines "masot" as gifts in Genesis 43:34, Sforno explains that Benjamin's gifts were five times greater than any individual brother's gifts, Rashbam suggests Benjamin's gift was far greater, Rashi clarifies Benjamin received five times his own portion and additional gifts, Tze'enah Ure'enah explains Benjamin received five gifts. In Halakhah, betrothal with less than a p'rutah is invalid, but intercourse in the presence of witnesses requires a divorce. Shemot Rabbah 21 emphasizes God listens to prayers before they are spoken, the structure of daily prayers reflects service to God, and proper prayer is seen as equivalent to Temple service. Avudraham's interpretation of Numbers 4:15 and Genesis 43:34 inspired the prayer "And load us." In Midrash, Joseph tested his brothers' loyalty by framing Benjamin, who later offered a peace offering symbolizing his family's history and future, leading to divine praise for Avidan. In Mishnah Makkot 3:2, those liable for lashes include individuals who eat sacrificial food while impure, and in Mishnah Shabbat 23:2, guests may be counted from memory and lots drawn for equal portions. Rashi discusses presents from the king's palace, Rashbam compares gifts given to Binyamin in Exodus, Radak interprets receiving a blessing from the Lord, and Chizkuni interprets the word "gift." Rabbi Yosei suggests Joseph's brothers did not drink wine until they were with him in the Talmud. According to Targum, Benjamin's portion at the meal with Joseph was five times larger than the others'. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 44
 
@@ -743,7 +739,6 @@ Chasidut: Mei HaShiloach connects the brothers' false accusation to their past s
 |--:|:-:|:--|
 
 Joseph did not want to be an instrument of punishment for the brothers' past crimes, only punishing the guilty party, as seen in various commentaries. Sins between humans must be atoned for directly, as shown in the example of Abraham reconciling with Lot. Judah's selfless offer as a slave in Benjamin's place leads to Joseph revealing himself and forgiving his brothers in the Midrash. Joseph's statement in Genesis 44:17 allowed the brothers to return to their father in peace, with Reuben still facing punishment for his own sins. Radak and Rabbenu Bachya highlight the strategic approach of Judah in appealing to Joseph's conscience in addressing the situation. Onkelos and Targum Jonathan depict Joseph declaring that the man with the goblet will be his slave, allowing the others to return to their father in peace. 
-<div style="page-break-after: always;"></div>
 
 
 

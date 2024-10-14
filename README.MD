@@ -9,6 +9,7 @@ This repository contains a Snakemake workflow that automates the creation of bil
 - **GPT Commentary Summaries**: Integrates GPT-generated summaries of the commentary to provide additional insights and understanding for each parasha.
 - **Text Wrapping and Alignment**: Correctly handles Hebrew text direction and alignment with `bidi` and `arabic_reshaper` libraries.
 - **Booklet Format**: Uses `pdfbook2` to generate a ready-to-print booklet format from the generated PDF.
+- **Documentary Hypothesis**: Each line includes the source according to the documentary hypothesis.
 
 ## Requirements
 

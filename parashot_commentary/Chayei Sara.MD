@@ -1,7 +1,6 @@
 
 # **5**: חיי שרה|Chayei Sara (Genesis 23:1-25:18)
  
-<div style="page-break-after: always;"></div>
 
 ## Genesis 23
 
@@ -104,7 +103,6 @@ Abraham buried Sarah in the cave of Machpelah in Hebron to emphasize her burial 
 |--:|:-:|:--|
 
 The townspeople agreed to sell Efron's fields to Avraham for the cave of Machpelah, establishing it as an inalienable burial site for him and his family, with the legal right to be buried alongside Sarah and the town seal attached to prevent future claims against the sale. Abraham paid a full price in silver to the children of Het for the cave, where he buried Sarah in Hebron after a mourning period of seven days. This act is seen as a rectification for Adam and Eve, ensuring their continuity in the afterlife through Abraham and Sarah. The purchase of the burial plot for Sara by Avraham reflects his dealings with neighbors and establishes a legal foothold in Canaan, balancing emotional reality with legal procedure and formalities typical of ancient Near Eastern contexts. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 24
 
@@ -442,7 +440,6 @@ Eliezer told Yitzchak about the miracles during his mission to find a wife for h
 |--:|:-:|:--|
 
 Yitzchok's deep love for Rivkah was based on her role in helping him fulfill his Creator's will and symbolized by bringing her into Sarah's tent, leading to his comfort after Sarah's death. The marriage of Isaac and Rebekah was orchestrated by Eliezer's prayer and God's guidance, with their union celebrated by a great feast. Isaac's marriage to Rebekah resulted in Abraham taking another wife, Keturah, out of a sense of unsettledness. Isaac's marriage to Rebekah is seen as a reason for Abraham's subsequent marriage. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 25
 
@@ -535,7 +532,6 @@ The lifespan of Yishmael in the Torah is used to illustrate the influence of a t
 |--:|:-:|:--|
 
 Ishmael's descendants settled from Chavilah to Shur, living among their brethren, possibly ruling over them. The relationship between God and Moses highlights direct communication without intermediaries. Ishmael's descendants built cities and lived in the wilderness, with Ishmael described as a wild man. Engaging in idle speech and levity leads to a spirit of uncleanliness that can punish in Gehinnom. Avraham is depicted as a central figure in the book of Genesis, engaging in conversations with God and facing struggles. The descendants of Ishmael lived from Chavilah to Shur, among their brethren. 
-<div style="page-break-after: always;"></div>
 
 
 

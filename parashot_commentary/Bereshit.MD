@@ -1,7 +1,6 @@
 
 # **1**: בראשית|Bereshit (Genesis 1:1-6:8)
  
-<div style="page-break-after: always;"></div>
 
 ## Genesis 1
 
@@ -159,7 +158,6 @@ Rashbam explains that meat was not permitted as food for man until after the flo
 |--:|:-:|:--|
 
 Chasidut emphasizes the significance of circumcision as emulating an attribute of God and symbolizing a covenant, while also exploring hiddenness in creation and the presence of bad. Halakhah discusses the importance of accepting the Torah for the existence of the world and the acknowledgment of the forces of evil on Yom Kippur. Jewish Thought delves into divine providence, knowledge of God's attributes, and the creation of creatures with layers. Kabbalah focuses on the Act of Creation being sealed with goodness and the creation of the world based on counsel from Goodness. Liturgy highlights the observance of the Sabbath and its significance as a day of rest and joy. Midrash emphasizes faith and perseverance in the face of adversity, while Mishnah details the practices of non-priestly watch members. Musar discusses the enduring existence of the earth through the Torah and the cleansing effects of exile and afflictions. Quoting Commentary explains the symbolism in the Tabernacle and the struggle between body and spirit. Second Temple texts emphasize God's insight and appreciation of His creations, while Talmud discusses the calming of the earth with the acceptance of the Torah. Tanakh mentions God's decision to bring a flood to cleanse the earth, and Targum emphasizes the goodness of God's creations on the sixth day. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 2
 
@@ -287,7 +285,6 @@ Chasidut emphasizes the importance of spiritual unity through Torah and prayer, 
 |--:|:-:|:--|
 
 The text from Chasidut emphasizes the unity of the Holy One and the Divine Presence, connecting the body and Torah, stressing the importance of honoring God and avoiding shame, and checking one's level of connection to God. Various commentaries provide insights on Adam and Eve's nudity and lack of shame, with interpretations ranging from the openness of the mind to the consequences of sin. The Midrash discusses Adam and Eve's lack of shame due to the absence of evil inclination and the insertion of the serpent's temptation story. In Musar, the Sages equate intelligence with shame, clothing is associated with dignity and modesty, and Aaron's inauguration symbolizes a reversal of Adam's distancing from God. Moses in Second Temple writings philosophically discusses the creation of man, the formation of Eve, and the symbolism of the Garden of Eden. Targum translations of Genesis 2:25 mention Adam and Eve being naked and unashamed, wise but not faithful, and unaware of shame. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 3
 
@@ -410,7 +407,6 @@ Chasidut emphasizes the connection between brazen behavior and being driven away
 |--:|:-:|:--|
 
 Various commentaries, Jewish thought, Kabbalah, Midrash, Musar, and other texts explore the themes of the Garden of Eden story, emphasizing the consequences of disobedience towards God, the importance of obedience to mitzvot and seeking divine guidance, and the significance of repentance and following the law and commandments. The narrative highlights the interconnectedness of knowledge, mortality, and the transition from innocence to adulthood in the human experience. The story also symbolizes the virtues of the Deity, the guardianship of wisdom, and the need for protection provided by a merciful Creator. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 4
 
@@ -543,7 +539,6 @@ Miriam's role in watching over her brother Moses symbolizes distancing oneself f
 |--:|:-:|:--|
 
 Chasidut emphasizes the importance of observing Shabbat strictly, using mnemonic devices to remember the details. Halakhah discusses the rise of idol worship during Enosh's time and the few individuals who recognized the true God. Jewish Thought explores the significance of calling upon God's name in prayer and the importance of Sabbath observance. Liturgy details various events from the creation of the world to Yom Kippur rituals. Midrash discusses the generations starting with Enosh, leading to rebellion against God. Musar highlights the consequences of idol worship and evil speech. Quoting Commentary delves into Lemekh's challenge to God and interpretations of the Sabbath's blessings. Second Temple describes Enos as representing hope and calling upon the name of the Lord. Talmud mentions forgiveness for those who observe Shabbat, even if they worship idols. Tanakh prophesies a time when all will call upon God's name. Targum notes the rise of idol worship during Enosh's generation. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 5
 
@@ -706,7 +701,6 @@ The Torah provides historical records of wicked people's lifespans, including Le
 |--:|:-:|:--|
 
 Chasidut discusses the righteous individuals who serve individually or lead others to their Creator, contrasting Noach's lack of acquiring souls with Avraham's conversion of pagans. Commentary notes Noah's delay in having children out of fear for their fate, while Midrash highlights the significance of the lineage from Adam to Noah and the moral perfection symbolized by Hanokh's life span. Second Temple interprets the names Shem, Ham, and Japhet, and Talmud disputes the birth order of Noah's sons. Targum confirms that Noah was 500 years old when he fathered Shem, Ham, and Japhet. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 6
 
@@ -749,7 +743,6 @@ In the future, God will reveal His light and compassion, healing the righteous a
 |--:|:-:|:--|
 
 Noah's favor with God was due to his righteousness and refusal to partake in sinful behavior, contrasting with the wicked generation around him. Despite not attracting converts like Abraham, Noah's righteousness allowed for his survival and the continuation of humanity. The tribe of Levi was spared from punishment due to their faithfulness to God and dedication to His service. Rabbi Shimon highlights the importance of Abraham, David, and Israel in demonstrating principles of existence, reward and punishment, and the power of God. Rabbi Simlai warns against lust leading to destruction, praising Noah for his righteousness and connection to God symbolizing peace and comfort. The Talmud discusses restrictions on making scrolls of specific biblical passages for children. Noah's favor with God was due to his righteousness, as described in Targum Jonathan and Targum Jerusalem on Genesis 6:8. 
-<div style="page-break-after: always;"></div>
 
 
 

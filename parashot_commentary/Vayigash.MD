@@ -1,7 +1,6 @@
 
 # **11**: ויגש|Vayigash (Genesis 44:18-47:27)
  
-<div style="page-break-after: always;"></div>
 
 ## Genesis 44
 
@@ -89,7 +88,6 @@ Yehudah offers to become a slave in place of Benjamin to prevent sinning against
 |--:|:-:|:--|
 
 Yehuda's selfless devotion to his father outweighed personal gain, serving as a lesson for Bnei Yisrael in their relationship with God. Judah's plea for Benjamin's release highlights the importance of empathy and genuine concern for others. Joseph tests his brothers to ensure they have changed, with Judah's speech about their father's grief playing a crucial role in the events. Targum interpretations also emphasize the concern for returning without Benjamin and the potential harm to Jacob. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 45
 
@@ -232,7 +230,6 @@ Yaakov's spirit was revived upon seeing the wagons sent by Yosef, symbolizing th
 |--:|:-:|:--|
 
 Yaakov was overjoyed to hear that Joseph was still alive after 22 years, as it showed that Joseph had remained true to his tradition and teachings despite being exposed to negative influences in Egypt. The Gemara provides advice on how to navigate desires and joys through four levels of birrur, starting with curbing lust with thoughts of mortality, then studying Torah, reciting the Shema, and finally contemplating death. Jacob expressed his immense joy that Joseph was alive, indicating that his position in Egypt was inconsequential compared to the fact that his son was still alive. Jacob's sons return to Canaan with news of Joseph being alive, and they use Serach to gently break the news to Jacob. Jacob's faith is restored, and he plans to see Joseph before he dies. Joseph reveals his true identity to his family, emphasizing that it was part of God's plan and urging them to prepare to migrate to Egypt. Israel expresses great joy and gratitude for the unexpected news that his son Joseph is still alive, after being delivered from various dangers. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 46
 
@@ -405,7 +402,6 @@ In Egypt, occupation was crucial for identity, with Egyptians avoiding Jews' pro
 |--:|:-:|:--|
 
 The Egyptians viewed shepherds as an abomination due to their religious beliefs and aversion to killing animals. The Torah's command to sacrifice animals was meant to counter false principles and demonstrate God's superiority over Egyptian deities. The division between Israelite and Egyptian cattle during the plague in Egypt prevented the spread of pestilence. The rejection of shepherds by the Egyptians and the sacrifice of virtues as offerings are symbolic of the conflict between virtue and passion. The Targum translations of Genesis 46:34 emphasize the Israelites' suitability to settle in Goshen as livestock owners from a young age, highlighting the Egyptians' disdain for shepherds. 
-<div style="page-break-after: always;"></div>
 
 ## Genesis 47
 
@@ -543,7 +539,6 @@ Joseph established a law in Egypt where one-fifth of the land was designated for
 |--:|:-:|:--|
 
 The settling of the Israelites in the land of Goshen among the Egyptians allowed them to sublimate Egyptian cultural values while maintaining their identity as Yisrael, as noted in Chasidut. Jacob strategically settled his sons in Goshen to prevent political involvement in Egyptian affairs and minimize their exile, as highlighted in the commentary. Rabbi Soloveitchik observed that the Israelites became comfortable in Egypt despite reminders of their return to the Promised Land, needing to be forced to leave. Kabbalistic interpretations connect the removal of ḥallah from dough to purification and generation of clean seed, paralleling human coupling in Genesis 47:23. Various commentaries discuss the destruction of enemies leading to the return of holiness to the Jewish people, the significance of dwelling in certain places signifying impending calamity, and the prosperity and growth of the Israelites in Goshen as described in Targum. 
-<div style="page-break-after: always;"></div>
 
 
 

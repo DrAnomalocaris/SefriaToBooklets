@@ -1,7 +1,6 @@
 
 # **7**: ויצא|Vayetzei (Genesis 28:10-32:3)
  
-<div style="page-break-after: always;"></div>
 
 ## Genesis 28
 
@@ -43,7 +42,6 @@
 
 |וְהָאֶ֣בֶן הַזֹּ֗את אֲשֶׁר־שַׂ֙מְתִּי֙ מַצֵּבָ֔ה יִהְיֶ֖ה בֵּ֣ית אֱלֹהִ֑ים וְכֹל֙ אֲשֶׁ֣ר תִּתֶּן־לִ֔י עַשֵּׂ֖ר אֲעַשְּׂרֶ֥נּוּ לָֽךְ׃|22 E|And this stone, which I have set up as a pillar, shall be God’s abode; and of all that You give me, I will set aside a tithe for You.”|
 |--:|:-:|:--|
-<div style="page-break-after: always;"></div>
 
 ## Genesis 29
 
@@ -151,7 +149,6 @@
 
 |וַתַּ֨הַר ע֜וֹד וַתֵּ֣לֶד בֵּ֗ן וַתֹּ֙אמֶר֙ הַפַּ֙עַם֙ אוֹדֶ֣ה אֶת־יְהֹוָ֔ה עַל־כֵּ֛ן קָרְאָ֥ה שְׁמ֖וֹ יְהוּדָ֑ה וַֽתַּעֲמֹ֖ד מִלֶּֽדֶת׃|35 J|She conceived again and bore a son, and declared, “This time I will praise  יהוה.” Therefore she named him Judah. Then she stopped bearing.|
 |--:|:-:|:--|
-<div style="page-break-after: always;"></div>
 
 ## Genesis 30
 
@@ -283,7 +280,6 @@
 
 |וַיִּפְרֹ֥ץ הָאִ֖ישׁ מְאֹ֣ד מְאֹ֑ד וַֽיְהִי־לוֹ֙ צֹ֣אן רַבּ֔וֹת וּשְׁפָחוֹת֙ וַעֲבָדִ֔ים וּגְמַלִּ֖ים וַחֲמֹרִֽים׃|43 J|So the man grew exceedingly prosperous, and came to own large flocks, maidservants and menservants, camels and asses.|
 |--:|:-:|:--|
-<div style="page-break-after: always;"></div>
 
 ## Genesis 31
 
@@ -448,7 +444,6 @@
 
 |וַיִּזְבַּ֨ח יַעֲקֹ֥ב זֶ֙בַח֙ בָּהָ֔ר וַיִּקְרָ֥א לְאֶחָ֖יו לֶאֱכׇל־לָ֑חֶם וַיֹּ֣אכְלוּ לֶ֔חֶם וַיָּלִ֖ינוּ בָּהָֽר׃|54 E|Jacob then offered up a sacrifice on the Height, and invited his kinsmen to partake of the meal. After the meal, they spent the night on the Height.|
 |--:|:-:|:--|
-<div style="page-break-after: always;"></div>
 
 ## Genesis 32
 
@@ -460,7 +455,6 @@
 
 |וַיֹּ֤אמֶר יַעֲקֹב֙ כַּאֲשֶׁ֣ר רָאָ֔ם מַחֲנֵ֥ה אֱלֹהִ֖ים זֶ֑ה וַיִּקְרָ֛א שֵֽׁם־הַמָּק֥וֹם הַה֖וּא מַֽחֲנָֽיִם׃|3 E|When he saw them, Jacob said, “This is God’s camp.” So he named that place Mahanaim. |
 |--:|:-:|:--|
-<div style="page-break-after: always;"></div>
 
 
 

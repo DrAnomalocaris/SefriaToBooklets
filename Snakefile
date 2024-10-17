@@ -59,15 +59,15 @@ def parasha_lines(wildcards):
     import json
     from pprint import pprint
     import pandas as pd
-    parashotFile = checkpoints.get_parasha.get(lang="english", parasha=wildcards.parasha).output[0] 
+    parashotFile = checkpoints.get_parasha.get(lang="english", parasha=wildcards["parasha"]).output[0] 
     parashot = json.loads(open(parashotFile).read())['versions'][0]['text']
     if type(parashot[0])==str:
         parashot = [parashot]
     #parashot.index=parashot['en']
     table = pd.read_csv(checkpoints.get_parashot_csv.get().output[0])
     table.index=table['en']
-    ref = table.loc[wildcards.parasha]['ref'].split()[-1].split('-')[0]
-    book = table.loc[wildcards.parasha]['ref'].split()[0]
+    ref = table.loc[wildcards["parasha"]]['ref'].split()[-1].split('-')[0]
+    book = table.loc[wildcards["parasha"]]['ref'].split()[0]
     verse,line = ref.split(':')
     verse,line = int(verse),int(line)
     out = []
@@ -826,196 +826,7 @@ rule make_pdf_with_commentary:
         pdf.build(elements)
         pdfexp.build(elements_expanded)
 
-""" rule make_doc_with_commentary:
-    input:
-        table="parashot.csv",
-        hebrew="sefaria/hebrew_{parasha}.json",
-        english="sefaria/english_{parasha}.json",
-        commentary="sefaria/summaries/{parasha}/meta_summary.pkl",
 
-    output:
-        book="parashot_commentary/{parasha}.docx",
-        #expanded="parashot_commentary/{parasha}_expanded.docx"
-    run:
-        import pandas as pd
-        from tqdm import tqdm
-        import json
-        import re
-        from docx import Document
-        from docx.shared import Pt, Inches
-        from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
-        import arabic_reshaper
-        from bidi.algorithm import get_display
-        from docx.oxml.ns import qn
-        from docx.oxml import OxmlElement
-
-        # Function to create a table with Hebrew, Line, and English text
-        def add_table_with_text(document, hebrew_text, line_number, english_text):
-            # Add a table with 1 row and 3 columns
-            table = document.add_table(rows=1, cols=3)
-            table.autofit = True
-            #set size of columns
-            table.columns[0].width = Inches(4)  # Hebrew column
-            table.columns[1].width = Inches(0.1)  # Line number column
-            table.columns[2].width = Inches(4)  # English column
-
-            tbl = table._tbl  # Get the table element from the table object
-            tbl_pr = tbl.tblPr  # Get table properties
-            
-            # Create or find the table alignment element (<w:jc w:val="center"/>)
-            jc = tbl_pr.xpath('w:jc')
-            if not jc:
-                jc = OxmlElement('w:jc')
-                tbl_pr.append(jc)
-            jc.set(qn('w:val'), 'left')
-            # Set the width of each column 
-            # Get the first row
-            row = table.rows[0]
-            
-            # Hebrew text (Right aligned)
-            cell_hebrew = row.cells[0]
-            cell_hebrew.text = hebrew_text
-            paragraph_hebrew = cell_hebrew.paragraphs[0]
-            paragraph_hebrew.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
-            paragraph_hebrew.style = "Quote"
-            # Line number (Center aligned)
-            cell_line = row.cells[1]
-            cell_line.text = str(line_number)
-            paragraph_line = cell_line.paragraphs[0]
-            paragraph_line.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
-            paragraph_line.style = "Quote"
-
-            # English text (Left aligned)
-            cell_english = row.cells[2]
-            cell_english.text = english_text
-            paragraph_english = cell_english.paragraphs[0]
-            paragraph_english.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
-            paragraph_english.style = "Quote"
-
-
-
-
-        # Load data
-        comments = pd.read_pickle(input.commentary)
- 
-        row = pd.read_csv(input.table, index_col=1).loc[wildcards.parasha]
-        BOOK = row.ref.split()[0]
-
-        # Reshape Hebrew text and get bidi format
-        reshaped_hebrew = arabic_reshaper.reshape(row.he)
-        bidi_hebrew = get_display(reshaped_hebrew)
-        
-        # Create a DOCX document
-        doc = Document()
-        
-        # Function to add paragraph with specific style
-        def add_paragraph_with_style(document, text, font_size=24, alignment=WD_PARAGRAPH_ALIGNMENT.CENTER, style="Normal"):
-            paragraph = document.add_paragraph(text)
-            paragraph.style = style
-
-            run = paragraph.runs[0]
-            run.font.size = Pt(font_size)
-            paragraph.alignment = alignment
-        
-        # Add title page
-        #add_paragraph_with_style(doc, , font_size=24)
-        doc.add_heading(f"{wildcards.parasha}({row.n + 1})\n{bidi_hebrew} ",1)
-
-        #add_paragraph_with_style(doc, f"{bidi_hebrew} {wildcards.parasha}", font_size=18,style="Title")
-        add_paragraph_with_style(doc, f"{row.ref}", font_size=16)
-        doc.add_page_break()
-
-        
-        # Utility functions for text cleaning
-        def clean_brackets(s):
-            result_string = re.sub(r'\{.*?\}', '', s)
-            result_string = re.sub(r'\[.*?\]', '', s)
-            return re.sub(r'\s+', ' ', result_string).strip()
-        
-        def invert_brackets(s):
-            s = ''.join([")" if i == "(" else "(" if i == ")" else i for i in s])
-            s = ''.join(["}" if i == "{" else "{" if i == "}" else i for i in s])
-            return s
-        # Load Hebrew and English texts
-        hebrew = json.load(open(input.hebrew))['versions'][0]['text']
-        english = json.load(open(input.english))['versions'][0]['text']
-        
-        if isinstance(hebrew[0], str):
-            hebrew = [hebrew]
-            english = [english]
-        
-        verse, line = map(int, row.ref.split()[-1].split("-")[0].split(":"))
-        
-        for v_hebrew, v_english in zip(hebrew, english):
-            #add_paragraph_with_style(doc, f"{BOOK} {verse}", font_size=24)
-            doc.add_heading(f"{BOOK} {verse}",2)
-
-            for l_hebrew, l_english in (zip(v_hebrew, v_english)):
-                cleaned_hebrew  = clean_brackets(BeautifulSoup(remove_footnotes_heb(l_hebrew),  "lxml").text)
-                cleaned_english = BeautifulSoup(remove_footnotes_heb(l_english), "lxml").text
-                add_table_with_text(doc, cleaned_hebrew, line, cleaned_english)
-
-                #add_paragraph_with_style(doc, cleaned_hebrew, font_size=14, alignment=WD_PARAGRAPH_ALIGNMENT.RIGHT)
-                #add_paragraph_with_style(doc, cleaned_english, font_size=14, alignment=WD_PARAGRAPH_ALIGNMENT.LEFT)
-                doc.add_paragraph( comments[(verse, line)], style="Normal")
-
-                
-                #add_paragraph_with_style(doc, comments[(verse, line)], font_size=10, alignment=WD_PARAGRAPH_ALIGNMENT.LEFT)
-
-                line += 1
-            line = 1
-            verse += 1
-            doc.add_page_break()
-
-        
-        # Save DOCX files
-        doc.save(output.book) """
-""" 
-rule make_the_BOOK:
-    input:
-        lambda wildcards: expand("parashot_commentary/{parasha}.docx", parasha=["Balak","V'Zot HaBerachah"]), #parashot_list(wildcards)
-    output:
-        book = "BOOK.docx"
-    run:
-        from docx import Document
-
-        # Function to append the content of one document to another
-        def append_doc(source_doc, target_doc):
-            # Append all paragraphs
-            for paragraph in source_doc.paragraphs:
-                target_doc.add_paragraph(paragraph.text, style=paragraph.style)
-            
-            # Append all tables
-            for table in source_doc.tables:
-                new_table = target_doc.add_table(rows=0, cols=len(table.columns))
-                for row in table.rows:
-                    cells = new_table.add_row().cells
-                    for i, cell in enumerate(row.cells):
-                        cells[i].text = cell.text
-            
-        # Function to merge multiple docx files
-        def merge_documents(files):
-            # Create a new document
-            merged_document = Document()
-            
-            # Iterate over the list of files and append their content to the merged document
-            for i, file in enumerate(files):
-                # Open each document
-                doc = Document(file)
-                
-                # Add a page break between files (except before the first document)
-                if i > 0:
-                    merged_document.add_page_break()
-                
-                # Append the content of the current document
-                append_doc(doc, merged_document)
-            
-            # Save the merged document
-            merged_document.save(output.book)
-
-        # Example usage
-        merge_documents(input)
- """
 
 rule make_Elliott_dictionary:
     input:
@@ -1152,13 +963,7 @@ rule make_MD_with_commentary:
             f.write(doc)
 
 
-rule make_book:
-    input:
-        pdf="parashot{comments}/{parasha}.pdf"
-    output:
-        "booklets{comments}/{parasha}.pdf"
-    shell:
-        'pdfbook2 "{input.pdf}" --paper=letter --no-crop && mv "parashot{wildcards.comments}/{wildcards.parasha}-book.pdf" "{output}"'
+
 
 rule make_the_BOOK_MD:
     input:
@@ -1312,6 +1117,301 @@ rule fix_docx:
         print("Ready for the presses!")
         print("")
         print("That all folks!")
+
+rule make_mega_json:
+    output:
+        json = "src/mega_{parasha}.json",
+
+    input:
+        meta_summary = "sefaria/summaries/{parasha}/meta_summary.pkl",
+        summaries    = expand("sefaria/summaries/{{parasha}}/summary_{source}.pkl", source=commentary_categories),
+        commentary   = "sefaria/commentary_{parasha}.csv",
+        english      ="sefaria/english_{parasha}.json",
+        hebrew       = "sefaria/hebrew_{parasha}.json",
+    run:
+        import pandas as pd
+        from sortedcontainers import SortedDict
+        import pickle
+        import json
+        from tqdm import tqdm
+        import itertools
+
+
+
+        # Create the main HTML document
+        meta = parasha_lines(wildcards)
+        commentary = pd.read_csv(input.commentary)
+        with doc.body:
+
+            out = SortedDict()
+            with open(input.meta_summary, "rb") as f:
+                meta_summary = (pickle.load(f))
+            with open(input.english) as f: english = list(itertools.chain.from_iterable(json.load(f)['versions'][0]['text']))
+            with open(input.hebrew) as f:  hebrew  = list(itertools.chain.from_iterable(json.load(f)['versions'][0]['text']))
+            summaries = {}
+            for source,_summary in zip(commentary_categories,input.summaries):
+                with open(_summary, "rb") as f:
+                    summaries[source] = (pickle.load(f))
+            
+
+            for (book, verse, line),hebrew_line, english_line in tqdm(zip(meta,hebrew, english), total=len(meta)):
+
+                sub1 = SortedDict()
+                for source,s in summaries.items():
+                    c = (commentary[(commentary.category == source) & (commentary.verse == verse) & (commentary.line == line)])
+
+                    c = (SortedDict(zip(c["source"], c["text"])))
+                    if (verse, line) in s:  
+                        sub1[source] = {
+                            "summary":s[(verse, line)],
+                            "commentaries": c
+                            }
+                if not verse in out:
+                    out[verse] = SortedDict()
+
+                out[verse][line] = {
+                    "hebrew": hebrew_line, 
+                    "english": english_line, 
+                    "summary": meta_summary[(verse, line)],
+                    "commentaries": sub1}
+
+        with open(output.json, "w") as f: 
+            json.dump(dict(out), f, indent=2)   
+
+
+  
+
+rule make_parasha_html:
+    output:
+        html = "parasha_{parasha}.html"
+
+    input:
+        meta_summary = "sefaria/summaries/{parasha}/meta_summary.pkl",
+        summaries    = expand("sefaria/summaries/{{parasha}}/summary_{source}.pkl", source=commentary_categories),
+        commentary   = "sefaria/commentary_{parasha}.csv",
+        english      ="sefaria/english_{parasha}.json",
+        hebrew       = "sefaria/hebrew_{parasha}.json",
+        ElliottFriedman="ElliottFriedman.pk",
+
+    run:
+        import pandas as pd
+        from sortedcontainers import SortedDict
+        import pickle
+        import json
+        from tqdm import tqdm
+        import itertools
+        import dominate
+        from dominate.tags import h1,h2,h3,h4,style,script,table,div,tr,td,tbody,p,details,summary,meta,link
+        from dominate.util import raw
+        ElliottFriedman = pd.read_pickle(input.ElliottFriedman)
+                # Utility functions for cleaning text
+        def clean_brackets(s):
+            # Remove all text between {} including the braces
+            result_string = re.sub(r'\{.*?\}', '', s)
+            # Strip any extra spaces left over
+            return re.sub(r'\s+', ' ', result_string).strip()
+
+        # Create the main HTML document
+        doc = dominate.document(title=wildcards.parasha)
+        with doc.body: h1(wildcards.parasha)
+        with doc.head:
+            meta(charset="UTF-8")
+            meta(name="viewport", content="width=device-width, initial-scale=1.0")
+            
+            # Link to an external CSS file
+            link(rel="stylesheet", href="src/styles.css")
+            
+        meta = parasha_lines(wildcards)
+        with open(input.commentary) as f:
+            commentary = pd.read_csv(f)
+        with doc.body:
+
+            out = SortedDict()
+            with open(input.meta_summary, "rb") as f:
+                meta_summary = (pickle.load(f))
+            with open(input.english) as f: english = list(itertools.chain.from_iterable(json.load(f)['versions'][0]['text']))
+            with open(input.hebrew) as f:  hebrew  = list(itertools.chain.from_iterable(json.load(f)['versions'][0]['text']))
+            summaries = {}
+            for source,_summary in zip(commentary_categories,input.summaries):
+                with open(_summary, "rb") as f:
+                    summaries[source] = (pickle.load(f))
+            
+
+            for (book, verse, line),hebrew_line, english_line in tqdm(zip(meta,hebrew, english), total=len(meta)):
+                if (line == 1) or ((book, verse, line) == meta[0]):
+                    h2(f"{book}:{verse}:{line}",style="text-align: center;")
+                with details():
+                    summary(table(tbody(tr(
+                        [
+                            td(raw(clean_brackets(BeautifulSoup(remove_footnotes_heb(hebrew_line),  "lxml").text)),    style="text-align: right;   vertical-align: top;padding: 10px;"),
+                            td(f'{line}\n{" ".join(ElliottFriedman.get((book, verse, line),[]))}',           style="text-align: center;  vertical-align: top;padding: 10px;"),
+                            td(raw(clean_brackets(BeautifulSoup(remove_footnotes_en(english_line),  "lxml").text)),   style="text-align: left;    vertical-align: top;padding: 10px;")
+                        ])),style="margin: 0 auto; width: 50%; border-collapse: collapse;"
+                        )
+                    )
+                    with details():
+                        if (verse, line) in meta_summary:
+                            summary(meta_summary[(verse, line)])
+
+
+                            for source,s in summaries.items():
+                                c = (commentary[(commentary.category == source) & (commentary.verse == verse) & (commentary.line == line)])
+
+                                c = (SortedDict(zip(c["source"], c["text"])))
+                                if (verse, line) in s:  
+                                    with details():
+                                        summary(h4(source))
+                                        with details():
+                                            summary(s[(verse, line)])
+                                            for a,b in c.items():
+                                                with details():
+                                                    summary(h4(a))
+                                                    p(b)
+
+
+
+        with open(output.html, 'w') as f:
+            f.write(doc.render())   
+
+
+rule make_index_html:
+    input:
+        parashot = "parashot.csv"
+    output:
+        html = "index.html"
+    run:
+        import pandas as pd
+        from sortedcontainers import SortedDict
+        import pickle
+        import json
+        from tqdm import tqdm
+        import itertools
+        import dominate
+        from dominate.tags import h1,h2,h3,h4,style,script,table,div,tr,td,tbody,p,details,summary,meta,link,a
+        from dominate.util import raw
+        df = pd.read_csv(input.parashot)
+        df['book'] = df['ref'].apply(lambda x: x.split()[0])
+        doc = dominate.document(title="Sefaria Commentary")
+        with doc.head:
+            meta(charset="UTF-8")
+            meta(name="viewport", content="width=device-width, initial-scale=1.0")
+            
+            # Link to an external CSS file
+            link(rel="stylesheet", href="src/styles.css")
+        with doc.body:
+            for book in df['book'].unique():
+                h1(book)
+                for i,row in df[df['book'] == book].iterrows():
+                    a(p(f'{row["n"]}: {row["en"]}'),
+                        href=f"parasha_{row.en}.html")
+
+
+        print(df)
+        with open(output.html, 'w') as f:
+            f.write(doc.render())   
+
+
+rule make_book_html:
+    #The html file becomes too large to display
+    output:
+        html = "book_{book}.html"
+    input:
+        meta_summary    = lambda wildcards: expand("sefaria/summaries/{parasha}/meta_summary.pkl",parasha = parashot_list(wildcards) ),
+        summaries       = lambda wildcards: expand("sefaria/summaries/{parasha}/summary_{source}.pkl",parasha=parashot_list(wildcards), source=commentary_categories),
+        commentary      = lambda wildcards: expand("sefaria/commentary_{parasha}.csv",parasha=parashot_list(wildcards)),
+        english         = lambda wildcards: expand("sefaria/english_{parasha}.json",parasha=parashot_list(wildcards)),
+        hebrew          = lambda wildcards: expand("sefaria/hebrew_{parasha}.json",parasha=parashot_list(wildcards)),
+        ElliottFriednan ="ElliottFriedman.pk",
+    run:
+        import pandas as pd
+        from sortedcontainers import SortedDict
+        import pickle
+        import json
+        from tqdm import tqdm
+        import itertools
+        import dominate
+        from dominate.tags import h1,h2,h3,h4,style,script,table,div,tr,td,tbody,p,details,summary,meta,link
+        from dominate.util import raw
+        ElliottFriednan = pd.read_pickle(input.ElliottFriednan)
+
+                # Utility functions for cleaning text
+        def clean_brackets(s):
+            # Remove all text between {} including the braces
+            result_string = re.sub(r'\{.*?\}', '', s)
+            # Strip any extra spaces left over
+            return re.sub(r'\s+', ' ', result_string).strip()
+
+        # Create the main HTML document
+        doc = dominate.document(title=wildcards.book)
+        with doc.body: h1(wildcards.book)
+        with doc.head:
+            meta(charset="UTF-8")
+            meta(name="viewport", content="width=device-width, initial-scale=1.0")
+            
+            # Link to an external CSS file
+            link(rel="stylesheet", href="src/styles.css")
+        for parasha in tqdm(parashot_list(wildcards)):
+            with doc.body:
+                with details():
+                    summary(h2(parasha))
+                    meta = parasha_lines({"parasha":parasha})
+                    with open(f"sefaria/commentary_{parasha}.csv") as f:
+                        commentary = pd.read_csv(f)
+                    out = SortedDict()
+                    with open(f"sefaria/summaries/{parasha}/meta_summary.pkl", "rb") as f:
+                        meta_summary = (pickle.load(f))
+                    with open(f"sefaria/english_{parasha}.json") as f: english = list(itertools.chain.from_iterable(json.load(f)['versions'][0]['text']))
+                    with open(f"sefaria/hebrew_{parasha}.json") as f:  hebrew  = list(itertools.chain.from_iterable(json.load(f)['versions'][0]['text']))
+                    summaries = {}
+                    for source in commentary_categories:
+                        with open(f"sefaria/summaries/{parasha}/summary_{source}.pkl", "rb") as f:
+                            summaries[source] = (pickle.load(f))
+                    
+                    for (book, verse, line),hebrew_line, english_line in zip(meta,hebrew, english):
+                        EF = ElliottFriednan.get((book, verse, line))
+                        if (line == 1) or ((book, verse, line) == meta[0]):
+                            h2(f"{book}:{verse}:{line}",style="text-align: center;")
+                        with details():
+                            summary(table(tbody(tr(
+                                [
+                                    td(raw(clean_brackets(BeautifulSoup(remove_footnotes_heb(hebrew_line),  "lxml").text)),    style="text-align: right;   vertical-align: top;padding: 10px;"),
+                                    td(f'{line}\n{EF}',           style="text-align: center;  vertical-align: top;padding: 10px;"),
+                                    td(raw(clean_brackets(BeautifulSoup(remove_footnotes_en(english_line),  "lxml").text)),   style="text-align: left;    vertical-align: top;padding: 10px;")
+                                ]))
+                                ,style="margin: 0 auto; width: 50%; border-collapse: collapse;"
+                                )
+                            )
+                            with details():
+                                if (verse, line) in meta_summary:
+                                    summary(meta_summary[(verse, line)])
+                                    for source,s in summaries.items():
+                                        c = (commentary[(commentary.category == source) & (commentary.verse == verse) & (commentary.line == line)])
+                                        c = (SortedDict(zip(c["source"], c["text"])))
+                                        if (verse, line) in s:  
+                                            with details():
+                                                summary(h4(source))
+                                                with details():
+                                                    summary(s[(verse, line)])
+                                                    for a,b in c.items():
+                                                        with details():
+                                                            summary(h4(a))
+                                                            p(b)
+
+
+
+        with open(output.html, 'w') as f:
+            f.write(doc.render())   
+
+  
+
+rule make_web:
+    input:
+        "index.html",
+        lambda wildcards:expand("parasha_{parasha}.html",parasha=parashot_list(wildcards))
+    output:
+        "done_{book}_page.txt"
+    shell:
+        "touch {output}"
 rule all:
     input:
         expand("BOOK_{book}.docx",

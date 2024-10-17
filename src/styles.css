@@ -1,0 +1,35 @@
+body {
+    font-family: Arial, sans-serif;
+}
+details {
+    margin: 10px;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+
+details > summary {
+    list-style: none;
+  }
+
+details > summary::-webkit-details-marker {
+display: none;
+}
+
+
+/* The actual transition (works with any content height) */
+details[open] p {
+    opacity: 1;
+    height: auto;
+    transform: translateY(0);
+    transition: all 0.5s ease; /* Smooth opening */
+}
+
+details p {
+    opacity: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    transform: translateY(-10px);
+    transition: all 0.5s ease; /* Smooth closing */
+    overflow: hidden;
+}
